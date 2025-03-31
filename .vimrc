@@ -19,6 +19,8 @@ set cursorline
 set timeoutlen=500 
 " - TERMINAL DISPLAYS 10 ROWS 
 set termwinsize=10x 
+" - ALLOW MOUSE SUPPORT 
+set mouse=a
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
