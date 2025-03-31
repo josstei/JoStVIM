@@ -12,6 +12,7 @@ call plug#end()
 " **********************************************************
 " - DISPLAY LINE NUMBERS RELATIVE TO CURRENT LINE
 set relativenumber
+" - NOT CASE SENSITIVE FOR SEARCH 
 set ignorecase
 " - HIGHLIGHT LINE CURSOR IS CURRENTLY ON
 set cursorline
@@ -19,7 +20,7 @@ set cursorline
 set timeoutlen=500 
 " - TERMINAL DISPLAYS 10 ROWS 
 set termwinsize=10x 
-" - ALLOW MOUSE SUPPORT 
+" - ALLOW MOUSE SUPPORT ( yuck )
 set mouse=a
 
 " **********************************************************
@@ -54,15 +55,19 @@ let g:fzf_layout = {'down':'30%'}
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
 	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-" - PREVENT FZF FROM OVERRIDING SPECIFIC BUFFER TYPES 
+" - PREVENT FZF FROM OVERRIDING SPECIFIC BUFFER TYPES
 function! FZFOpen(cmd)
-    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal']
-    if winnr('$') > 1 && (index(functional_buf_types, &bt) >= 0)
+    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal', 'NERD_tree']
+    if winnr('$') > 1 && (index(functional_buf_types, &bt) >= 0 || bufname('%') =~ 'NERD_tree_\d\+')
         let norm_wins = filter(range(1, winnr('$')),
-                    \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1')
+                    \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1 && bufname(winbufnr(v:val)) !~ "NERD_tree"')
         let norm_win = !empty(norm_wins) ? norm_wins[0] : 0
-        exe norm_win . 'winc w'
+
+        if norm_win > 0
+            exe norm_win . 'winc w'
+        endif
     endif
+
     exe a:cmd
 endfunction
 
@@ -73,6 +78,7 @@ let mapleader = " "
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
+
 " - OPEN AND FOCUS TO BUFFER 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
@@ -81,14 +87,18 @@ autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
   \ |   wincmd p
   \ |   call ShowDefault()
   \ | endif
-
-" - PREVENT BUFFERS FROM OVERRIDING TREE 
-autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" - PREVENT NERDTree FROM BEING OVERRIDDEN BY OTHER BUFFERS
+autocmd BufEnter * 
+  \ if bufname('%') =~ 'NERD_tree_\d\+' && winnr('$') > 1
+  \ |   let g:nerdTreeWin = winnr() 
+  \ |   let g:nerdTreeBuf = bufnr('%')
+  \ | elseif exists('g:nerdTreeWin') && winnr() == g:nerdTreeWin && bufname('%') !~ 'NERD_tree_\d\+'
+  \ |   execute 'buffer ' . g:nerdTreeBuf
+  \ | endif
 " - TOGGLE OPEN/CLOSE TREE 
 nnoremap <leader>e :NERDTreeToggle<CR>
 " - REMOVE TOP HELP MESSAGE
-let NERDTreeMinimalUI=1
+let NERDTreeMinimalUI = 1
 
 " **********************************************************
 " ***************** TERMINAL SETUP *************************
@@ -222,5 +232,5 @@ function! ShowDefault()
   
   call setline(1, l:default)
   setlocal buftype=nofile bufhidden=hide nobuflisted noswapfile
-"   setlocal nomodifiable
+  setlocal nomodifiable
 endfunction
