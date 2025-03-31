@@ -4,6 +4,9 @@
 
 Welcome to **JoStVim**, a personal VIM configuration designed to create a clear, concise, and easy entry point for using VIM as a Java development environment. This project not only aims to enhance my understanding of VIM, but also to provide a highly efficient and user-friendly VIM setup that caters specifically to Java development need.
 
+![JoStVIM](images/JoStVIM_Default.png)
+
+
 ## Purpose
 
 As a newcomer to VIM, this project is a step towards improving my workflow and learning more about the powerful customization features VIM offers. 
