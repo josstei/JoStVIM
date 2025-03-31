@@ -75,9 +75,13 @@ let mapleader = " "
 " **********************************************************
 " - OPEN AND FOCUS TO BUFFER 
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
-" Display ASCII art in a new buffer when no file is provided
-autocmd VimEnter * NERDTree | if argc() == 0 | call ShowDefault() | endif
+autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
+  \ |   wincmd p
+  \ | else
+  \ |   wincmd p
+  \ |   call ShowDefault()
+  \ | endif
+
 " - PREVENT BUFFERS FROM OVERRIDING TREE 
 autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
@@ -176,7 +180,7 @@ vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<C
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
 function! ShowDefault()
-  wincmd p
+  enew
   let l:default= [
         \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
         \ '{}                                                                                          {}',
@@ -218,5 +222,5 @@ function! ShowDefault()
   
   call setline(1, l:default)
   setlocal buftype=nofile bufhidden=hide nobuflisted noswapfile
-  setlocal nomodifiable
+"   setlocal nomodifiable
 endfunction
