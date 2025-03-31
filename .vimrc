@@ -209,27 +209,22 @@ function! ShowDefault()
         \ '',
         \ "═══════════════════════════════════════ QUICK START ══════════════════════════════════════════",
         \ "",
-        \ "🧭 WINDOW NAVIGATION",
-        \ "   ▶ Press <Space> e → Toggle file explorer hide/show",
-        \ "   ▶ Hold <Ctrl> and press one of the following keys:",
-        \ "     - <C-h> → Move to the left buffer",
-        \ "     - <C-j> → Move to the below buffer",
-        \ "     - <C-k> → Move to the above buffer",
-        \ "     - <C-l> → Move to the right buffer",
-        \ "",
-        \ "📂 SEARCHING FILES IN PROJECT",
-        \ "   ▶ Press <Space> pf → Search for a file in the working directory.",
-        \ "   ▶ Press <Space> pg → Search for a file tracked by Git.",
-        \ "",
-        \ "🖊 BUFFER EDITING",
-        \ "   ▶ Press <Space> fs   → Save current buffer.",
-        \ "   ▶ Press <Space> fq   → Close current buffer.",
-        \ "   ▶ Press <Space> bye → Force Close current buffer.",
-        \ "   ▶ Press <Space> bye → Close all buffers and exit JoStVim.",
-        \ "",
+        \ "🧭 WINDOW NAVIGATION                     📂 SEARCHING FILES                  🖊 FILE SAVE/QUIT",
+        \ "   ▶ <Space> e → Toggle file explorer       ▶ <Space> pf → Search project       ▶ <Space> fs  → Save buffer       ",
+        \ "   ▶ <Ctrl> h → Left buffer                 ▶ <Space> pg → Search Git files     ▶ <Space> fq  → Close buffer      ",
+        \ "   ▶ <Ctrl> j → Below buffer                                                    ▶ <Space> ffq → Force quit buffer ",
+        \ "   ▶ <Ctrl> k → Above buffer             🗂 TERMINAL                            ▶ <Space> bye → Force quit all/Exit JoStVIM",
+        \ "   ▶ <Ctrl> l → Right buffer                ▶ <Space> t  → Open terminal                                          ",
+        \ "   ▶ <Space> wv → Split Vert.               ▶ <Ctrl + d> → Closeterminal                                           ",
+        \ "   ▶ <Space> wh → Split Hor.                                                                                 ",
+        \ "                                                                                                             ",
+        \ "📝 COMMENT CODE",
+        \ "   ▶ <Space> cc → Comment line/selection",
+        \ "   ▶ <Space> cu → Uncomment line/selection",
+        \ "                                                                                                             ",
         \ "══════════════════════════════════════════════════════════════════════════════════════════════"
         \ ]
-  
+
   call setline(1, l:default)
   setlocal buftype=nofile bufhidden=hide nobuflisted noswapfile
   setlocal nomodifiable
