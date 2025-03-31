@@ -1,8 +1,8 @@
-# JoStVim - A Customized VIM Environment for Java Development
+# JoStVIM - A Customized VIM Environment for Java Development
 
 ## Overview
 
-Welcome to **JoStVim**, a personal VIM configuration designed to create a clear, concise, and easy entry point for using VIM as a Java development environment. This project not only aims to enhance my understanding of VIM, but also to provide a highly efficient and user-friendly VIM setup that caters specifically to Java development need.
+Welcome to **JoStVIM**, a personal VIM configuration designed to create a clear, concise, and easy entry point for using VIM as a Java development environment. This project not only aims to enhance my understanding of VIM, but also to provide a highly efficient and user-friendly VIM setup that caters specifically to Java development need.
 
 ![JoStVIM](images/JoStVIM_Default.png)
 
