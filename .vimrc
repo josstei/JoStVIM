@@ -22,6 +22,8 @@ set timeoutlen=500
 set termwinsize=10x 
 " - ALLOW MOUSE SUPPORT ( yuck )
 set mouse=a
+" - SET ENCODING FOR UTF - 8
+set encoding=UTF-8
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
@@ -39,14 +41,14 @@ let g:netrw_sort_options ='1'
 " ***************** THEME SETUP ****************************
 " **********************************************************
 " - THEME COMPATIBILITY
-
 set nocompatible
  if (has("termguicolors"))
    set termguicolors
  endif
  syntax enable
+" - set colorscheme 
 colorscheme dogrun
-" - SET COLORSCHEME 
+
 " **********************************************************
 " ***************** FZF CONFIG *****************************
 " **********************************************************
@@ -57,15 +59,16 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 " - PREVENT FZF FROM OVERRIDING SPECIFIC BUFFER TYPES
 function! FZFOpen(cmd)
-    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal', 'NERD_tree']
-    if winnr('$') > 1 && (index(functional_buf_types, &bt) >= 0 || bufname('%') =~ 'NERD_tree_\d\+')
+    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal']
+    if winnr('$') >= 1 && (index(functional_buf_types, &bt) > 0 || bufname('%') =~ 'NERD_tree_\d\+')
         let norm_wins = filter(range(1, winnr('$')),
                     \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1 && bufname(winbufnr(v:val)) !~ "NERD_tree"')
         let norm_win = !empty(norm_wins) ? norm_wins[0] : 0
-
-        if norm_win > 0
-            exe norm_win . 'winc w'
+        if norm_win == 0
+	   enew
+	   NERDTree
         endif
+	wincmd w
     endif
 
     exe a:cmd
@@ -78,7 +81,11 @@ let mapleader = " "
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
-
+" Force NERDTree to always open on the left with a width of 31 columns
+let g:NERDTreeWinSize = 31
+" Ensure NERDTree always opens on the left and has the correct size
+autocmd VimEnter * if !exists('b:NERDTree') && winnr('$') == 1 | NERDTree | vertical resize 31 | endif
+autocmd FileType nerdtree vertical resize 31
 " - OPEN AND FOCUS TO BUFFER 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
@@ -88,13 +95,8 @@ autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
   \ |   call ShowDefault()
   \ | endif
 " - PREVENT NERDTree FROM BEING OVERRIDDEN BY OTHER BUFFERS
-autocmd BufEnter * 
-  \ if bufname('%') =~ 'NERD_tree_\d\+' && winnr('$') > 1
-  \ |   let g:nerdTreeWin = winnr() 
-  \ |   let g:nerdTreeBuf = bufnr('%')
-  \ | elseif exists('g:nerdTreeWin') && winnr() == g:nerdTreeWin && bufname('%') !~ 'NERD_tree_\d\+'
-  \ |   execute 'buffer ' . g:nerdTreeBuf
-  \ | endif
+autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 " - TOGGLE OPEN/CLOSE TREE 
 nnoremap <leader>e :NERDTreeToggle<CR>
 " - REMOVE TOP HELP MESSAGE
