@@ -28,7 +28,6 @@ set encoding=UTF-8
 " **********************************************************
 " ***************** NETRW SETUP ****************************
 " **********************************************************
-" - REMOVE BANNER 
 let g:netrw_banner = 0
 " - PRESERVE CURRENT DIRECTORY
 let g:netrw_keepdir = 1
@@ -64,11 +63,9 @@ function! FZFOpen(cmd)
         let norm_wins = filter(range(1, winnr('$')),
                     \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1 && bufname(winbufnr(v:val)) !~ "NERD_tree"')
         let norm_win = !empty(norm_wins) ? norm_wins[0] : 0
-        if norm_win == 0
-	   enew
-	   NERDTree
+        if norm_win > 0
+        	wincmd w
         endif
-	wincmd w
     endif
 
     exe a:cmd
@@ -81,22 +78,20 @@ let mapleader = " "
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
-" Force NERDTree to always open on the left with a width of 31 columns
-let g:NERDTreeWinSize = 31
-" Ensure NERDTree always opens on the left and has the correct size
-autocmd VimEnter * if !exists('b:NERDTree') && winnr('$') == 1 | NERDTree | vertical resize 31 | endif
+" FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
 autocmd FileType nerdtree vertical resize 31
 " - OPEN AND FOCUS TO BUFFER 
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in")
-  \ |   wincmd p
-  \ | else
-  \ |   wincmd p
-  \ |   call ShowDefault()
-  \ | endif
+autocmd VimEnter * NERDTree | wincmd p |    
+  \ if argc() == 0 || (argc() == 1 && isdirectory(argv(0))) 
+  \|   call ShowDefault()
+  \|endif
 " - PREVENT NERDTree FROM BEING OVERRIDDEN BY OTHER BUFFERS
 autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" - SHOW NERD TREE WHEN FILE IS OPENED FROM FZF 
+autocmd BufEnter * if winnr('$') == 1 && bufname('#') =~ 'NERD_tree_.*' && bufname ('%') !~ 'NERD_tree_.*' 
+  \| NERDTree | wincmd p |  endif
 " - TOGGLE OPEN/CLOSE TREE 
 nnoremap <leader>e :NERDTreeToggle<CR>
 " - REMOVE TOP HELP MESSAGE
@@ -192,7 +187,7 @@ vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<C
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
 function! ShowDefault()
-  enew
+  
   let l:default= [
         \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
         \ '{}                                                                                          {}',
