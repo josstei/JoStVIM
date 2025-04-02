@@ -25,6 +25,8 @@ set mouse=a
 set encoding=UTF-8
 " - SET TAB TO 4 SPACES
 set ts=4 sw=4
+" - PREVENT SWAP FILE CREATION
+set noswapfile
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
