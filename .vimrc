@@ -2,7 +2,6 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'josstei/vim-dogrun'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 call plug#end()
@@ -24,6 +23,8 @@ set termwinsize=10x
 set mouse=a
 " - SET ENCODING FOR UTF - 8
 set encoding=UTF-8
+" - SET TAB TO 4 SPACES
+set ts=4 sw=4
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
@@ -46,7 +47,7 @@ set nocompatible
  endif
  syntax enable
 " - set colorscheme 
-colorscheme dogrun
+colorscheme onedark
 
 " **********************************************************
 " ***************** FZF CONFIG *****************************
@@ -80,18 +81,44 @@ let mapleader = " "
 " **********************************************************
 " FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
 autocmd FileType nerdtree vertical resize 31
-" - OPEN AND FOCUS TO BUFFER 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree | wincmd p |    
-  \ if argc() == 0 || (argc() == 1 && isdirectory(argv(0))) 
-  \|   call ShowDefault()
-  \|endif
-" - PREVENT NERDTree FROM BEING OVERRIDDEN BY OTHER BUFFERS
-autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-" - SHOW NERD TREE WHEN FILE IS OPENED FROM FZF 
-autocmd BufEnter * if winnr('$') == 1 && bufname('#') =~ 'NERD_tree_.*' && bufname ('%') !~ 'NERD_tree_.*' 
-  \| NERDTree | wincmd p |  endif
+
+autocmd VimEnter * call OnVimEnter()
+autocmd BufEnter * call OnBufferEnter()
+
+function! OnVimEnter()
+	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
+		call ShowDefault()
+	endif
+	call TriggerTree()
+endfunction
+
+function! OnBufferEnter()
+	let totalWin = winnr('$')
+	let prevBufName = bufname('#')
+	let currBufName = bufname('%')
+	let isHeadBuf = winnr() == winnr('h')
+	let treeRegex = 'NERD_tree_.*'
+
+	if isHeadBuf
+		if prevBufName =~ treeRegex
+			let buffer = bufnr()
+			if totalWin > 2
+				buffer#
+				wincmd w
+				execute 'buffer'.buffer
+			endif
+		endif
+	else
+		echo 'test'
+	endif
+endfunction
+
+function! TriggerTree()
+	NERDTree
+endfunction
+
+
+
 " - TOGGLE OPEN/CLOSE TREE 
 nnoremap <leader>e :NERDTreeToggle<CR>
 " - REMOVE TOP HELP MESSAGE
