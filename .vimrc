@@ -55,23 +55,34 @@ colorscheme onedark
 " ***************** FZF CONFIG *****************************
 " **********************************************************
 " - SET FZF BUFFER OPEN AT BOTTOM 
+let g:functionalBuffers = ['quickfix', 'help', 'nofile', 'terminal', 'nerdtree']
 let g:fzf_layout = {'down':'30%'}
+
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
 	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 " - PREVENT FZF FROM OVERRIDING SPECIFIC BUFFER TYPES
 function! FZFOpen(cmd)
-    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal']
-    if winnr('$') >= 1 && (index(functional_buf_types, &bt) > 0 || bufname('%') =~ 'NERD_tree_\d\+')
-        let norm_wins = filter(range(1, winnr('$')),
-                    \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1 && bufname(winbufnr(v:val)) !~ "NERD_tree"')
-        let norm_win = !empty(norm_wins) ? norm_wins[0] : 0
-        if norm_win > 0
-        	wincmd w
-        endif
-    endif
+	let totalWin = winnr('$')
+	if index(g:functionalBuffers, &bt) > 0
+		let anchor = CheckAndSwitchBuffer(0)
+		if anchor != -1 | execute ':'.anchor . 'wincmd w'| endif
+	endif	
 
     exe a:cmd
+endfunction
+
+function! CheckAndSwitchBuffer(index)
+    let arr = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+	let i = a:index 
+	if len(arr) > 0	
+		if index(g:functionalBuffers, getbufvar(arr[i], '&bt')) == -1 
+			return winbufnr(arr[i])
+		else 
+			call CheckAndSwitchBuffer(i + 1)
+		endif
+	else | return -1
+	endif
 endfunction
 
 " ****** LEADER REMAPPING ******
@@ -84,8 +95,7 @@ let mapleader = " "
 " FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
 autocmd FileType nerdtree vertical resize 31
 
-autocmd VimEnter * call OnVimEnter()
-autocmd BufEnter * call OnBufferEnter()
+autocmd VimEnter * call OnVimEnter() 
 
 function! OnVimEnter()
 	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
@@ -94,29 +104,17 @@ function! OnVimEnter()
 	call TriggerTree()
 endfunction
 
-function! OnBufferEnter()
-	let totalWin = winnr('$')
-	let prevBufName = bufname('#')
-	let currBufName = bufname('%')
-	let isHeadBuf = winnr() == winnr('h')
-	let treeRegex = 'NERD_tree_.*'
-
-	if isHeadBuf
-		if prevBufName =~ treeRegex
-			let buffer = bufnr()
-			if totalWin > 2
-				buffer#
-				wincmd w
-				execute 'buffer'.buffer
-			endif
-		endif
-	else
-		echo 'test'
-	endif
-endfunction
+" function! OnBufferEnter()
+" 	let totalWin = winnr('$')
+" 	let prevBufName = bufname('#')
+" 	let currBufName = bufname('%')
+" 	let isHeadBuf = winnr() == winnr('h')
+" 	let treeRegex = 'NERD_tree_.*'
+" endfunction
 
 function! TriggerTree()
 	NERDTree
+	wincmd p
 endfunction
 
 
@@ -139,8 +137,14 @@ tnoremap <c-n> <c-\><c-n>
 " **********************************************************
 " ***************** FILE SETUP *****************************
 " **********************************************************
+" - BUFFER DELETE
+nnoremap <leader>bd :bd<CR>
+
+" **********************************************************
+" ***************** FILE SETUP *****************************
+" **********************************************************
 " - FILE QUIT
-nnoremap <leader>fq :q<CR>
+nnoremap <leader>fq :bd<CR>
 " - FILE FORCE QUIT
 nnoremap <leader>ffq :q!<CR>
 " - FILE FORCE QUIT ALL ******
@@ -216,7 +220,7 @@ vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<C
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
 function! ShowDefault()
-  
+ enew 
   let l:default= [
         \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
         \ '{}                                                                                          {}',
@@ -252,6 +256,6 @@ function! ShowDefault()
         \ ]
 
   call setline(1, l:default)
-  setlocal buftype=nofile bufhidden=hide nobuflisted noswapfile
+  setlocal buftype= bufhidden=hide nobuflisted noswapfile
   setlocal nomodifiable
 endfunction
