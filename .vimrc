@@ -91,6 +91,7 @@ function! GetAllOpenWindows()
 			\.'(IsNewBuffer(v:val) == 1)')
 endfunction
 
+" - TODO ADD CHECK FOR MODIFIED
 function! IsNewBuffer(buffer)
 	let buf_name = bufname(a:buffer)
 	return (buf_name == 'new') || ( buf_name == '')
