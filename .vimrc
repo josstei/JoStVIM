@@ -61,28 +61,36 @@ let g:fzf_layout = {'down':'30%'}
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
 	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-" - PREVENT FZF FROM OVERRIDING SPECIFIC BUFFER TYPES
-function! FZFOpen(cmd)
-	let totalWin = winnr('$')
-	if index(g:functionalBuffers, &bt) > 0
-		let anchor = CheckAndSwitchBuffer(0)
-		if anchor != -1 | execute ':'.anchor . 'wincmd w'| endif
-	endif	
 
+function! FZFOpen(cmd)
+	call NavigateToOpenBuffer()
     exe a:cmd
 endfunction
 
-function! CheckAndSwitchBuffer(index)
-    let arr = filter(range(1, bufnr('$')), 'buflisted(v:val)')
-	let i = a:index 
-	if len(arr) > 0	
-		if index(g:functionalBuffers, getbufvar(arr[i], '&bt')) == -1 
-			return winbufnr(arr[i])
-		else 
-			call CheckAndSwitchBuffer(i + 1)
-		endif
-	else | return -1
+function! NavigateToOpenBuffer()
+	if IsFunctionalBuffer(&bt)
+		execute ':'.SearchAnchor(GetActiveBuffers(),0).'wincmd w '
 	endif
+endfunction
+
+function! IsFunctionalBuffer(bt)
+	return index(g:functionalBuffers,a:bt) >= 0
+endfunction
+	
+function! GetActiveBuffers()
+	return filter(range(1,bufnr('$')), 'bufwinnr(v:val) > 0')
+endfunction
+
+function! SearchAnchor(arr,i)
+	try
+		let buf_type = getbufvar(a:arr[a:i], '&bt')
+		let buf_num = bufnr(a:arr[a:i])
+		let buf_win = bufwinnr(buf_num)
+
+		return (IsFunctionalBuffer(buf_type) == 0) && (buf_win > 0) ? buf_win : SearchAnchor(a:arr,a:i +1)
+	catch
+		return 0
+	endtry
 endfunction
 
 " ****** LEADER REMAPPING ******
@@ -144,7 +152,7 @@ nnoremap <leader>bd :bd<CR>
 " ***************** FILE SETUP *****************************
 " **********************************************************
 " - FILE QUIT
-nnoremap <leader>fq :bd<CR>
+nnoremap <leader>fq :q<CR>
 " - FILE FORCE QUIT
 nnoremap <leader>ffq :q!<CR>
 " - FILE FORCE QUIT ALL ******
