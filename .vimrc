@@ -63,34 +63,55 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 function! FZFOpen(cmd)
-	call NavigateToOpenBuffer()
+	call NavigateToOpenWindow()
     exe a:cmd
 endfunction
 
-function! NavigateToOpenBuffer()
-	if IsFunctionalBuffer(&bt)
-		execute ':'.SearchAnchor(GetActiveBuffers(),0).'wincmd w '
+function! NavigateToOpenWindow()
+	let curr_buf_num  = bufnr('%')
+
+	if IsFunctionalBuffer(curr_buf_num)
+		let new_win_num   = GetOpenWindow()
+
+		if new_win_num != 0 | execute ':'.new_win_num.'wincmd w '
+		else | botright vnew
+		endif	
 	endif
 endfunction
 
-function! IsFunctionalBuffer(bt)
-	return index(g:functionalBuffers,a:bt) >= 0
+function! IsFunctionalBuffer(buffer)
+	let buf_type = getbufvar(a:buffer,"&bt") 
+	return index(g:functionalBuffers,buf_type) >= 0
 endfunction
 	
-function! GetActiveBuffers()
-	return filter(range(1,bufnr('$')), 'bufwinnr(v:val) > 0')
+function! GetAllOpenWindows()
+	return filter(range(1,bufnr('$')),
+			\ '(IsOpenWindow(v:val) == 1) && '
+			\.'(IsFunctionalBuffer(v:val) == 0) && '
+			\.'(IsNewBuffer(v:val) == 1)')
 endfunction
 
-function! SearchAnchor(arr,i)
-	try
-		let buf_type = getbufvar(a:arr[a:i], '&bt')
-		let buf_num = bufnr(a:arr[a:i])
-		let buf_win = bufwinnr(buf_num)
+function! IsNewBuffer(buffer)
+	let buf_name = bufname(a:buffer)
+	return (buf_name == 'new') || ( buf_name == '')
+endfunction
 
-		return (IsFunctionalBuffer(buf_type) == 0) && (buf_win > 0) ? buf_win : SearchAnchor(a:arr,a:i +1)
-	catch
-		return 0
-	endtry
+function! IsOpenWindow(buffer)
+	let win_num = bufwinnr(a:buffer)
+	return (win_num > 0)
+endfunction
+
+function! GetOpenWindow()
+	let arr    = GetAllOpenWindows()
+	let window = 0
+
+	if !empty(arr)
+		let buffer   = arr[0]
+		let buf_num  = bufnr(buffer)
+		window       = bufwinnr(buf_num)
+	endif
+
+	return window 
 endfunction
 
 " ****** LEADER REMAPPING ******
@@ -111,14 +132,6 @@ function! OnVimEnter()
 	endif
 	call TriggerTree()
 endfunction
-
-" function! OnBufferEnter()
-" 	let totalWin = winnr('$')
-" 	let prevBufName = bufname('#')
-" 	let currBufName = bufname('%')
-" 	let isHeadBuf = winnr() == winnr('h')
-" 	let treeRegex = 'NERD_tree_.*'
-" endfunction
 
 function! TriggerTree()
 	NERDTree
@@ -147,18 +160,18 @@ tnoremap <c-n> <c-\><c-n>
 " **********************************************************
 " - BUFFER DELETE
 nnoremap <leader>bd :bd<CR>
+nnoremap <leader>bs :w<CR>
 
 " **********************************************************
 " ***************** FILE SETUP *****************************
 " **********************************************************
 " - FILE QUIT
 nnoremap <leader>fq :q<CR>
+nnoremap <leader>fs :w<CR>
 " - FILE FORCE QUIT
-nnoremap <leader>ffq :q!<CR>
+nnoremap <leader>FQ :q!<CR>
 " - FILE FORCE QUIT ALL ******
 nnoremap <leader>bye :qa!<CR>
-" - FILE SAVE
-nnoremap <leader>fs :w<CR>
 
 " **********************************************************
 " ***************** WINDOW SETUP ***************************
@@ -267,3 +280,13 @@ function! ShowDefault()
   setlocal buftype= bufhidden=hide nobuflisted noswapfile
   setlocal nomodifiable
 endfunction
+
+" Airline {
+" let g:airline_theme='papercolor'
+" show git branch
+" let g:airline#extensions#branch#enabled=1
+" let g:airline#extensions#hunks#enabled=0
+" let g:airline_powerline_fonts=1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#fnamemod = ':t'
+" }
