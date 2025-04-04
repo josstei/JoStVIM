@@ -55,7 +55,7 @@ colorscheme onedark
 " ***************** FZF CONFIG *****************************
 " **********************************************************
 " - SET FZF BUFFER OPEN AT BOTTOM 
-let g:functionalBuffers = ['quickfix', 'help', 'nofile', 'terminal', 'nerdtree']
+let g:functionalBuffers = ['quickfix', 'help', 'nofile', 'terminal']
 let g:fzf_layout = {'down':'30%'}
 
 autocmd! FileType fzf
@@ -68,51 +68,35 @@ function! FZFOpen(cmd)
 endfunction
 
 function! NavigateToOpenWindow()
-	let curr_buf_num  = bufnr('%')
-
-	if IsFunctionalBuffer(curr_buf_num)
-		let new_win_num   = GetOpenWindow()
-
-		if new_win_num != 0 | execute ':'.new_win_num.'wincmd w '
-		else | botright vnew
-		endif	
+	if IsFunctionalBuffer(bufnr('%'))
+		let new_win_num = FindOpenWindow(GetAllOpenWindows())
+		call DoNavigate(new_win_num)
 	endif
 endfunction
 
 function! IsFunctionalBuffer(buffer)
-	let buf_type = getbufvar(a:buffer,"&bt") 
-	return index(g:functionalBuffers,buf_type) >= 0
+	return index(g:functionalBuffers,getbufvar(a:buffer,"&bt")) >= 0
 endfunction
 	
 function! GetAllOpenWindows()
-	return filter(range(1,bufnr('$')),
-			\ '(IsOpenWindow(v:val) == 1) && '
-			\.'(IsFunctionalBuffer(v:val) == 0) && '
-			\.'(IsNewBuffer(v:val) == 1)')
+	return filter(tabpagebuflist(),'(IsFunctionalBuffer(v:val) == 0) && (IsNewBuffer(v:val) == 1)')
 endfunction
 
 " - TODO ADD CHECK FOR MODIFIED
 function! IsNewBuffer(buffer)
-	let buf_name = bufname(a:buffer)
-	return (buf_name == 'new') || ( buf_name == '')
+	return (bufname(a:buffer) == 'new') || ( bufname(a:buffer) == '')
 endfunction
 
-function! IsOpenWindow(buffer)
-	let win_num = bufwinnr(a:buffer)
-	return (win_num > 0)
+function! FindOpenWindow(arr)
+	if !empty(a:arr) | return bufwinnr(a:arr[0]) | endif | return 0 
 endfunction
 
-function! GetOpenWindow()
-	let arr    = GetAllOpenWindows()
-	let window = 0
+function! GetAllFunctionalWindows()
+	return filter(range(1,tabpagewinnr('$')),'(IsFunctionalBuffer(v:val) == 1)')
+endfunction
 
-	if !empty(arr)
-		let buffer   = arr[0]
-		let buf_num  = bufnr(buffer)
-		window       = bufwinnr(buf_num)
-	endif
-
-	return window 
+function! DoNavigate(window)
+	if a:window != 0 | execute ':'.a:window.'wincmd w ' | else | tabnew |endif	
 endfunction
 
 " ****** LEADER REMAPPING ******
@@ -123,23 +107,23 @@ let mapleader = " "
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
 " FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
-autocmd FileType nerdtree vertical resize 31
+let g:nerdtree_tabs_smart_startup_focus = 1
+let g:NERDTreeWinPos = "left" 
 
+autocmd FileType nerdtree vertical resize 31
 autocmd VimEnter * call OnVimEnter() 
+autocmd TabNew * call TriggerTree() 
 
 function! OnVimEnter()
 	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
-		call ShowDefault()
+ 		call ShowDefault()
 	endif
 	call TriggerTree()
 endfunction
 
 function! TriggerTree()
-	NERDTree
-	wincmd p
+	NERDTree | wincmd p 
 endfunction
-
-
 
 " - TOGGLE OPEN/CLOSE TREE 
 nnoremap <leader>e :NERDTreeToggle<CR>
@@ -194,7 +178,7 @@ nnoremap <c-l> <c-w>l
 " ***************** PROJECT SETUP **************************
 " **********************************************************
 " - SEARCH PROJECT FILES ( ALL ) 
-nnoremap <leader>pf :call FZFOpen(':FZF')<CR>
+nnoremap <leader>pf :call FZFOpen(':Files')<CR>
 " - SEARCH PROJECT FILES ( GIT TRACKED ) 
 nnoremap <leader>pg :call FZFOpen(':GFiles')<CR>
 
@@ -242,7 +226,7 @@ vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<C
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
 function! ShowDefault()
- enew 
+	enew
   let l:default= [
         \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
         \ '{}                                                                                          {}',
@@ -278,7 +262,7 @@ function! ShowDefault()
         \ ]
 
   call setline(1, l:default)
-  setlocal buftype= bufhidden=hide nobuflisted noswapfile
+  setlocal buftype= bufhidden=hide noswapfile
   setlocal nomodifiable
 endfunction
 
