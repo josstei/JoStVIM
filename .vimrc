@@ -1,71 +1,78 @@
 call plug#begin()
-Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 call plug#end()
 
+source ~/.vim/jost_statusline.vim
+
 " **********************************************************
 " ***************** GENERAL SETUP **************************
 " **********************************************************
-" - DISPLAY LINE NUMBERS RELATIVE TO CURRENT LINE
-set relativenumber
-" - NOT CASE SENSITIVE FOR SEARCH 
-set ignorecase
-" - HIGHLIGHT LINE CURSOR IS CURRENTLY ON
-set cursorline
-" - TIMEOUT LENGTH BETWEEN KEYMAP KEYSTROKES ( IN MS )
-set timeoutlen=500 
-" - TERMINAL DISPLAYS 10 ROWS 
-set termwinsize=10x 
-" - ALLOW MOUSE SUPPORT ( yuck )
-set mouse=a
-" - SET ENCODING FOR UTF - 8
-set encoding=UTF-8
-" - SET TAB TO 4 SPACES
-set ts=4 sw=4
-" - PREVENT SWAP FILE CREATION
-set noswapfile
+	" - DISPLAY LINE NUMBERS RELATIVE TO CURRENT LINE
+	set relativenumber
+	" - NOT CASE SENSITIVE FOR SEARCH 
+	set ignorecase
+	" - HIGHLIGHT LINE CURSOR IS CURRENTLY ON
+	set cursorline
+	" - TIMEOUT LENGTH BETWEEN KEYMAP KEYSTROKES ( IN MS )
+	set timeoutlen=500 
+	" - TERMINAL DISPLAYS 10 ROWS 
+	set termwinsize=10x 
+	" - ALLOW MOUSE SUPPORT ( yuck )
+	set mouse=a
+	" - SET ENCODING FOR UTF - 8
+	set encoding=UTF-8
+	" - SET TAB TO 4 SPACES
+	set ts=4 sw=4
+	" - PREVENT SWAP FILE CREATION
+	set noswapfile
+	" - SHOW STATUSLINE ON ALL WINDOWS
+	set laststatus=2
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
 " **********************************************************
-let g:netrw_banner = 0
-" - PRESERVE CURRENT DIRECTORY
-let g:netrw_keepdir = 1
-" - TREE STYLE 
-let g:netrw_liststyle = 3
-" - SORT BY NAME 
-let g:netrw_sort_options ='1' 
+	let g:netrw_banner = 0
+	" - PRESERVE CURRENT DIRECTORY
+	let g:netrw_keepdir = 1
+	" - TREE STYLE 
+	let g:netrw_liststyle = 3
+	" - SORT BY NAME 
+	let g:netrw_sort_options ='1' 
 
 " **********************************************************
-" ***************** THEME SETUP ****************************
+" ***************** THEME START ****************************
 " **********************************************************
-" - THEME COMPATIBILITY
-set nocompatible
- if (has("termguicolors"))
-   set termguicolors
- endif
- syntax enable
-" - set colorscheme 
-colorscheme onedark
+	" THEME COMPATIBILITY
+	set nocompatible
+	 if (has("termguicolors"))
+	   set termguicolors
+	 endif
+	 syntax enable
+	" SET COLORSCHEME 
+	colorscheme onedark
 
 " **********************************************************
 " ***************** FZF CONFIG *****************************
 " **********************************************************
-" - SET FZF BUFFER OPEN AT BOTTOM 
+	" SET FZF BUFFER OPEN AT BOTTOM 
+	let g:fzf_layout = {'down':'30%'}
+
+	autocmd! FileType fzf
+	autocmd FileType fzf set laststatus=0 noshowmode noruler
+		\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+	function! FZFOpen(cmd)
+		call NavigateToOpenWindow()
+		exe a:cmd
+	endfunction
+
+" ********************************************************************
+" ******************* WINDOW BUFFER BEHAVIOR START *******************
+" ********************************************************************
 let g:functionalBuffers = ['quickfix', 'help', 'nofile', 'terminal']
-let g:fzf_layout = {'down':'30%'}
-
-autocmd! FileType fzf
-autocmd FileType fzf set laststatus=0 noshowmode noruler
-	\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-function! FZFOpen(cmd)
-	call NavigateToOpenWindow()
-    exe a:cmd
-endfunction
 
 function! NavigateToOpenWindow()
 	if IsFunctionalBuffer(bufnr('%'))
@@ -98,6 +105,9 @@ endfunction
 function! DoNavigate(window)
 	if a:window != 0 | execute ':'.a:window.'wincmd w ' | else | tabnew |endif	
 endfunction
+" ********************************************************************
+" ******************* WINDOW BUFFER BEHAVIOR END *********************
+" ********************************************************************
 
 " ****** LEADER REMAPPING ******
 nnoremap <space> <nop>
@@ -110,7 +120,9 @@ let mapleader = " "
 let g:nerdtree_tabs_smart_startup_focus = 1
 let g:NERDTreeWinPos = "left" 
 
-autocmd FileType nerdtree vertical resize 31
+autocmd FileType nerdtree vertical resize 31 
+autocmd FileType nerdtree setlocal statusline=%!SL_Set()
+
 autocmd VimEnter * call OnVimEnter() 
 autocmd TabNew * call TriggerTree() 
 
@@ -143,13 +155,6 @@ tnoremap <c-n> <c-\><c-n>
 " **********************************************************
 " ***************** FILE SETUP *****************************
 " **********************************************************
-" - BUFFER DELETE
-nnoremap <leader>bd :bd<CR>
-nnoremap <leader>bs :w<CR>
-
-" **********************************************************
-" ***************** FILE SETUP *****************************
-" **********************************************************
 " - FILE QUIT
 nnoremap <leader>fq :q<CR>
 nnoremap <leader>fs :w<CR>
@@ -159,28 +164,43 @@ nnoremap <leader>FQ :q!<CR>
 nnoremap <leader>bye :qa!<CR>
 
 " **********************************************************
-" ***************** WINDOW SETUP ***************************
+" ***************** WINDOW NAV START ***********************
 " **********************************************************
-" - WINDOW SPLIT ( VERTICAL )
-nnoremap <leader>wv :rightbelow vs new<CR>
-" - WINDOW SPLIT ( HORIZONTAL )
-nnoremap <leader>wh :rightbelow split new<CR>
-" - WINDOW NAVIGATION ( LEFT BUFFER )
-nnoremap <c-h> <c-w>h
-" - WINDOW NAVIGATION ( DOWN BUFFER )
-nnoremap <c-j> <c-w>j
-" - WINDOW NAVIGATION ( UP BUFFER )
-nnoremap <c-k> <c-w>k
-" - WINDOW NAVIGATION ( RIGHT BUFFER )
-nnoremap <c-l> <c-w>l
+
+	" WINDOW SPLIT ( VERTICAL )
+	nnoremap <leader>wv :rightbelow vs new<CR>
+	" WINDOW SPLIT ( HORIZONTAL )
+	nnoremap <leader>wh :rightbelow split new<CR>
+	" WINDOW NAVIGATION
+	nnoremap <leader>1 :1wincmd w<CR>
+	nnoremap <leader>2 :2wincmd w<CR>
+	nnoremap <leader>3 :3wincmd w<CR>
+	nnoremap <leader>4 :4wincmd w<CR>
+	nnoremap <leader>5 :5wincmd w<CR>
+	nnoremap <leader>6 :6wincmd w<CR>
 
 " **********************************************************
-" ***************** PROJECT SETUP **************************
+" ***************** FILE / TEXT SEARCH START ***************
 " **********************************************************
-" - SEARCH PROJECT FILES ( ALL ) 
-nnoremap <leader>pf :call FZFOpen(':Files')<CR>
-" - SEARCH PROJECT FILES ( GIT TRACKED ) 
-nnoremap <leader>pg :call FZFOpen(':GFiles')<CR>
+
+	" SEARCH CWD FILES
+	nnoremap <leader><leader> :call FZFOpen(':Files')<CR>
+	" SEARCH CWD TEXT
+	nnoremap <leader>/ :SearchText<CR>
+
+	function! SearchTextInCurrentDir()
+		let l:searchText = input('Search For Text (Current Directory): ')
+
+		if empty(l:searchText) | echo "Cancelled." | return | endif
+
+		execute 
+			\'vimgrep /' . escape(l:searchText, '/\') . 
+			\'/j ' . join(split(system('find ' . getcwd() . ' -type f -name "*"'), "\n"))
+		copen
+	endfunction
+
+	command! SearchText call SearchTextInCurrentDir()
+	autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
 " ****** EXIT INSERT MODE ****** 
 inoremap jk <ESC> 
@@ -265,13 +285,3 @@ function! ShowDefault()
   setlocal buftype= bufhidden=hide noswapfile
   setlocal nomodifiable
 endfunction
-
-" Airline {
-" let g:airline_theme='papercolor'
-" show git branch
-" let g:airline#extensions#branch#enabled=1
-" let g:airline#extensions#hunks#enabled=0
-" let g:airline_powerline_fonts=1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#fnamemod = ':t'
-" }
