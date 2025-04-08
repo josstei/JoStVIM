@@ -16,10 +16,8 @@ The goal of this setup is not only to create an environment that I am comfortabl
 
 A special thanks to the following plugins that are currently utilized in this project
 
-- **[vim-airline](https://github.com/vim-airline/vim-airline)**: A lightweight status line plugin that enhances VIM's interface and displays useful information in a clean and compact format.
 - **[fzf](https://github.com/junegunn/fzf)**: A general-purpose command-line fuzzy finder that integrates perfectly with VIM to quickly search for files, buffers, and more.
 - **[fzf.vim](https://github.com/junegunn/fzf.vim)**: Provides key bindings and commands to work with `fzf` inside VIM, making file and buffer navigation seamless.
-- **[vim-dogrun](https://github.com/wadackel/vim-dogrun)**: A color scheme that brings a fresh and modern look to VIM, making it easier on the eyes during long coding sessions.
 - **[vim-smoothie](https://github.com/psliwka/vim-smoothie)**: Provides smooth scrolling functionality in VIM, making the scrolling experience more fluid and pleasant.
 - **[NERDTree](https://github.com/preservim/nerdtree)**: A tree explorer plugin for VIM, allowing easy navigation of files and directories within the editor.
 
