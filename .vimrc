@@ -21,7 +21,7 @@ source ~/.vim/jost_statusline.vim
 	" - TERMINAL DISPLAYS 10 ROWS 
 	set termwinsize=10x 
 	" - ALLOW MOUSE SUPPORT ( yuck )
-	set mouse=a
+" 	set mouse=a
 	" - SET ENCODING FOR UTF - 8
 	set encoding=UTF-8
 	" - SET TAB TO 4 SPACES
@@ -193,9 +193,15 @@ nnoremap <leader>bye :qa!<CR>
 
 		if empty(l:searchText) | echo "Cancelled." | return | endif
 
-		execute 
-			\'vimgrep /' . escape(l:searchText, '/\') . 
-			\'/j ' . join(split(system('find ' . getcwd() . ' -type f -name "*"'), "\n"))
+		let l:cmd = 'grep -rnI --exclude-dir=.git ' . shellescape(l:searchText) . ' ' . shellescape(getcwd())
+		let l:results = systemlist(l:cmd)
+
+		if empty(l:results)
+			echo 'No Matches Found'
+			return
+		endif
+
+		call setqflist([], 'r', {'lines':l:results,'title':'Search Results'})
 		copen
 	endfunction
 
