@@ -25,17 +25,17 @@ let g:mode_map = {
 
 " TODO use a map for highlight for fg and bg
 let g:sl_leftSide = {
-			\'section_1':{'items':['windowNumber'],'highlight':'#c678dd'},
-			\'section_2':{'items':['mode'],'highlight':'#4b2a55'},
-			\'section_3':{'items':['fileName'],'highlight':'#c678dd'},
+			\'section_1':{'items':['windowNumber'],'highlight':{'bg':'#c678dd','fg':''}},
+			\'section_2':{'items':['mode'],'highlight':{'bg':'#c678dd','fg':''}},
+			\'section_3':{'items':['fileName'],'highlight':{'bg':'#c678dd','fg':''}},
 			\'separator':'',
 			\'side':'LEFT'
 			\}
 
 let g:sl_rightSide = {
-			\'section_1':{'items':[],'highlight':'#c678dd'},
-			\'section_2':{'items':[],'highlight':'#4b2a55'},
-			\'section_3':{'items':[],'highlight':'#c678dd'},
+			\'section_1':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
+			\'section_2':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
+			\'section_3':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
 			\'separator':'',
 			\'side':'RIGHT'
 			\}
@@ -55,11 +55,7 @@ augroup END
 
 
 function! SL_Set() 
-	let l:leftGroup  = SL_ParseStatuslineMap(g:sl_leftSide)
-	let l:rightGroup = SL_ParseStatuslineMap(g:sl_rightSide)
-
-	return '' . l:leftGroup . '%=' . l:rightGroup . ' '
-
+	return ''.ParseSectionGroup(g:sl_leftSide).'%='.ParseSectionGroup(g:sl_rightSide).' '
  endfunction
 
 function! SL_GetMode() 
@@ -92,76 +88,70 @@ function! SL_GetItemValue(item)
 	elseif a:item ==# 'windowNumber' 
 		return SL_GetWindowNumber()
 	else
-		return ''
+		return v:null 
 	endif
 endfunction
 
-function! SL_ParseStatuslineMap(map) 
-
-	let section_1 = get(a:map,'section_1',v:null)
-	let section_2 = get(a:map,'section_2',v:null)
-	let section_3 = get(a:map,'section_3',v:null)
-	let side 	  = get(a:map,'side',v:null)
-	let separator = get(a:map,'separator',v:null)
-	
-	return SL_ParseSectionGroup(section_1,section_2,section_3,side,separator)	
-endfunction
-
-function! SL_ParseSectionItems(items)
+function! ParseSectionItems(items)
 	let l:arrItemValues = []	
 	
 	for i in range(len(a:items))
-		call add(l:arrItemValues,SL_GetItemValue(a:items[i]))
-	endfor
-
-	return join(l:arrItemValues,'')
-endfunction
-
-
-function! SL_ParseSectionGroup(section_1,section_2,section_3,side,separator) 
-	let groupItems 	 = [] 
-	let arrSections 	 = [a:section_1,a:section_2,a:section_3]
-
-	for i in range(len(l:arrSections))
-		let section   	     = l:arrSections[i]
-		let sectionItems 	 = SL_ParseSectionItems(get(section,'items',v:null))
-		let sectionHighlight = get(section,'highlight',v:null)
-		" test until I finish this up
-		let test = SL_ApplySectionHighlight(i + 1,sectionItems,a:side,a:separator)
-		
-		if sectionItems != ''
-			call add(groupItems,test)
+		let test = SL_GetItemValue(a:items[i])
+		if test != v:null
+			call add(l:arrItemValues,test)
 		endif
 	endfor
 	
-	return join(groupItems, '')
+	return !empty(arrItemValues) ? join(arrItemValues, '') : v:null
 endfunction
 
-function! SL_ApplySectionHighlight(section,sectionItems,side,separator) 
-	"test for now 
-	let testItem = SL_ApplyItemHighlight(a:sectionItems)
+function! GetSections(map)
+    return filter(copy(a:map), 'v:key =~# "^section_\\d\\+$"')
+endfunction
 
-	return  a:side == 'LEFT'  ? testItem. a:separator:
-		   \a:side == 'RIGHT' ? a:separator . a:sectionItems:
+function! ParseSectionGroup(map)
+	let groupItems 	= [] 
+	let sections 	= GetSections(a:map)
+	let separator 	= a:map->get('separator','')
+	let side 		= a:map->get('side','')
+
+	for [name, data] in items(sections)
+		let items = AppendHighlights(name,ParseSectionItems(data.items),side,separator)
+		if items != v:null
+			call add(groupItems,items)
+		endif
+	endfor
+	return !empty(groupItems) ? join(groupItems, '') : ''
+endfunction
+
+function! AppendHighlights(name,items,side,separator) 
+	if a:items == v:null 
+		return a:items
+	endif
+	"test for now 
+	let l:items 	= AppendItemHighlight(a:name,a:items,a:side)
+	let l:separator = AppendSeparatorHighlight(a:name,a:separator,a:side) 
+
+	return  a:side == 'LEFT'  ? l:items.l:separator:
+		   \a:side == 'RIGHT' ? l:separator.l:items:
 		   \v:null
 endfunction
 
-function! SL_ApplySeparatorHighlight(sectionNum,separator,group) 
-	return '%#SECTION_'.a:sectionNum.'_'.a:group.'_SEPARATOR#'.a:separator.'%*'		
+function! AppendItemHighlight(name,items,side) 
+	return '%#'.a:name.'_'.a:side.'# '.a:items.'%*'		
 endfunction
 
-" test for now
-function! SL_ApplyItemHighlight(sectionItems) 
-	return '%#Section_1_Left# '.a:sectionItems.'%*'		
+function! AppendSeparatorHighlight(name,separator,side) 
+	return '%#'.a:name.'_'.a:side.'_separator#'.a:separator.'%*'		
 endfunction
 
-function! SL_SetHighlights()
+function! TestSectionHighlights()
 	let fg_color = '#000000'
 	let bg_color = '#c678dd'
    	let style = 'bold'
 	" testing for just section 1 for now
 	let hl_cmd = printf('highlight Section_1_Left guifg=%s guibg=%s gui=%s', fg_color, bg_color, style)
-	
+
 	execute hl_cmd
 endfunction
 
@@ -169,7 +159,7 @@ set statusline=%!SL_Set()
 
 augroup StatusLine au! 
 	au WinEnter,WinLeave,WinNew * redrawstatus!
-	autocmd ColorScheme * call SL_SetHighlights()
+	autocmd ColorScheme * call TestSectionHighlights()
 augroup END
 
 autocmd FileType * setlocal statusline=%!SL_Set()
