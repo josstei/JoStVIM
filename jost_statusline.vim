@@ -58,78 +58,69 @@ function! SL_Set()
 	return ''.ParseSectionGroup(g:sl_leftSide).'%='.ParseSectionGroup(g:sl_rightSide).' '
  endfunction
 
-function! SL_GetMode() 
+function! GetMode() 
 	return get(g:mode_map, mode(), 'UNKNOWN MODE')
 endfunction
 
-function! SL_GetFilename() 
+function! GetFilename() 
 	return expand('%:t') ==# '' ? '[No Name]' : expand('%:t') 
 endfunction
 
-function! SL_GetFiletype() 
+function! GetFiletype() 
 	return '%{&filetype}'
 endfunction
 
-function! SL_GetWindowNumber() 
+function! GetWindowNumber() 
 	return '%{winnr()}'
 endfunction
 
-function! SL_GetModified() 
+function! GetModified() 
 	return &modified ? '[+]' : ''
 endfunction
 
-function! SL_GetItemValue(item) 
-	if a:item ==# 'mode'
-		return SL_GetMode()
-	elseif a:item ==# 'fileName' 
-		return SL_GetFilename()
-	elseif a:item ==# 'fileType' 
-		return SL_GetFiletype()
-	elseif a:item ==# 'windowNumber' 
-		return SL_GetWindowNumber()
-	else
-		return v:null 
-	endif
+function! GetItemValue(item)
+	let l:itemValueMap = {
+		\ 'mode':         GetMode(),
+		\ 'fileName':     GetFilename(),
+		\ 'fileType':     GetFiletype(),
+		\ 'windowNumber': GetWindowNumber()
+		\ }
+	return has_key(l:itemValueMap, a:item) ? l:itemValueMap[a:item] : v:null 
 endfunction
 
 function! ParseSectionItems(items)
-	let l:arrItemValues = []	
-	
-	for i in range(len(a:items))
-		let test = SL_GetItemValue(a:items[i])
-		if test != v:null
-			call add(l:arrItemValues,test)
-		endif
-	endfor
-	
-	return !empty(arrItemValues) ? join(arrItemValues, '') : v:null
+	let l:itemValues = filter(map(copy(a:items),'GetItemValue(v:val)'), 'v:val !=v:null' )
+	return empty(l:itemValues) ? v:null : join(l:itemValues, '')
 endfunction
 
 function! GetSections(map)
-    return filter(copy(a:map), 'v:key =~# "^section_\\d\\+$"')
+	return filter(copy(a:map), 'v:key =~# "^section_\\d\\+$"')
 endfunction
 
 function! ParseSectionGroup(map)
-	let groupItems 	= [] 
-	let sections 	= GetSections(a:map)
-	let separator 	= a:map->get('separator','')
-	let side 		= a:map->get('side','')
+	let l:groupMap = a:map
+  	let l:sections = GetSections(l:groupMap)
+  	let l:separator = l:groupMap ->get('separator','')
+	let l:side = l:groupMap ->get('side','')
+	let l:parts = []
 
-	for [name, data] in items(sections)
-		let items = AppendHighlights(name,ParseSectionItems(data.items),side,separator)
-		if items != v:null
-			call add(groupItems,items)
+	for [name, data] in items(l:sections)
+	   	let l:itemsStr = ParseSectionItems(data.items)
+		let l:highlighted = AppendHighlights(name, l:itemsStr, l:side, l:separator)
+
+		if l:highlighted != v:null
+			call add(l:parts,l:highlighted)
 		endif
 	endfor
-	return !empty(groupItems) ? join(groupItems, '') : ''
+  return empty(l:parts) ? '' : join(l:parts, '')
 endfunction
 
 function! AppendHighlights(name,items,side,separator) 
 	if a:items == v:null 
 		return a:items
 	endif
-	"test for now 
-	let l:items 	= AppendItemHighlight(a:name,a:items,a:side)
+
+	let l:items = AppendItemHighlight(a:name,a:items,a:side)
 	let l:separator = AppendSeparatorHighlight(a:name,a:separator,a:side) 
 
 	return  a:side == 'LEFT'  ? l:items.l:separator:
