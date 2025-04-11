@@ -23,21 +23,21 @@ let g:mode_map = {
 			\ 'a': 'ARGUMENT', 
 			\}
 
-" TODO use a map for highlight for fg and bg
-let g:sl_leftSide = {
-			\'section_1':{'items':['windowNumber'],'highlight':{'bg':'#c678dd','fg':''}},
-			\'section_2':{'items':['mode'],'highlight':{'bg':'#c678dd','fg':''}},
-			\'section_3':{'items':['fileName'],'highlight':{'bg':'#c678dd','fg':''}},
-			\'separator':'',
-			\'side':'LEFT'
-			\}
-
-let g:sl_rightSide = {
-			\'section_1':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
-			\'section_2':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
-			\'section_3':{'items':[''],'highlight':{'bg':'#c678dd','fg':''}},
-			\'separator':'',
-			\'side':'RIGHT'
+let g:statusline_config = {
+			\ 'left': {
+			\   'section_1': { 'items': ['windowNumber'], 'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'section_2': { 'items': ['mode'],         'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'section_3': { 'items': ['fileName'],     'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'separator': '',
+			\   'side': 'LEFT'
+			\ },
+			\ 'right': {
+			\   'section_1': { 'items': ['someOtherItem'], 'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'section_2': { 'items': ['anotherItem'],   'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'section_3': { 'items': ['yetAnotherItem'],  'highlight': {'bg': '#c678dd', 'fg': ''} },
+			\   'separator': '',
+			\   'side': 'RIGHT'
+			\ }
 			\}
 
 augroup StatusLineOverrides
@@ -53,10 +53,24 @@ augroup StatusLineOverrides
 	autocmd ColorScheme * highlight Section_3_Right guifg=#000000 guibg=#2a9df4
 augroup END
 
+function! SL_Set()
+	let is_active = get(b:, 'is_active', 1)
+	let cfg = deepcopy(g:statusline_config)
 
-function! SL_Set() 
-	return ''.ParseSectionGroup(g:sl_leftSide).'%='.ParseSectionGroup(g:sl_rightSide).' '
- endfunction
+	if !is_active
+		if has_key(cfg.left, 'section_1')
+			let cfg.left.section_1.items = ['windowNumber']
+		endif
+		if has_key(cfg.left, 'section_2')
+			let cfg.left.section_2.items = [] 
+		endif
+		if has_key(cfg.left, 'section_3')
+			let cfg.left.section_3.items = ['fileName']
+		endif
+	endif
+
+  return ''.ParseSectionGroup(cfg.left).'%='.ParseSectionGroup(cfg.right).' '
+endfunction
 
 function! GetMode() 
 	return get(g:mode_map, mode(), 'UNKNOWN MODE')
@@ -148,10 +162,12 @@ endfunction
 
 set statusline=%!SL_Set()
 
-augroup StatusLine au! 
-	au WinEnter,WinLeave,WinNew * redrawstatus!
+augroup StatusLine
+	autocmd!
+	autocmd WinEnter * let b:is_active = 1 | setlocal statusline=%!SL_Set()
+	autocmd WinLeave * let b:is_active = 0 | setlocal statusline=%!SL_Set()
+	autocmd WinEnter,WinLeave,WinNew * redrawstatus!
 	autocmd ColorScheme * call TestSectionHighlights()
 augroup END
 
 autocmd FileType * setlocal statusline=%!SL_Set()
-
