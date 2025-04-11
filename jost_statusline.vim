@@ -54,7 +54,7 @@ augroup StatusLineOverrides
 augroup END
 
 function! SL_Set()
-	let is_active = get(b:, 'is_active', 1)
+	let is_active = g:statusline_winid == win_getid()
 	let cfg = deepcopy(g:statusline_config)
 
 	if !is_active
@@ -62,10 +62,10 @@ function! SL_Set()
 			let cfg.left.section_1.items = ['windowNumber']
 		endif
 		if has_key(cfg.left, 'section_2')
-			let cfg.left.section_2.items = [] 
+			let cfg.left.section_2.items = []
 		endif
 		if has_key(cfg.left, 'section_3')
-			let cfg.left.section_3.items = ['fileName']
+			let cfg.left.section_3.items = []
 		endif
 	endif
 
@@ -164,10 +164,8 @@ set statusline=%!SL_Set()
 
 augroup StatusLine
 	autocmd!
-	autocmd WinEnter * let b:is_active = 1 | setlocal statusline=%!SL_Set()
-	autocmd WinLeave * let b:is_active = 0 | setlocal statusline=%!SL_Set()
-	autocmd WinEnter,WinLeave,WinNew * redrawstatus!
 	autocmd ColorScheme * call TestSectionHighlights()
 augroup END
 
-autocmd FileType * setlocal statusline=%!SL_Set()
+
+

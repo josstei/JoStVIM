@@ -28,8 +28,6 @@ source ~/.vim/jost_statusline.vim
 	set ts=4 sw=4
 	" - PREVENT SWAP FILE CREATION
 	set noswapfile
-	" - SHOW STATUSLINE ON ALL WINDOWS
-	set laststatus=2
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
@@ -121,7 +119,6 @@ let g:nerdtree_tabs_smart_startup_focus = 1
 let g:NERDTreeWinPos = "left" 
 
 autocmd FileType nerdtree vertical resize 31 
-autocmd FileType nerdtree setlocal statusline=%!SL_Set()
 
 autocmd VimEnter * call OnVimEnter() 
 autocmd TabNew * call TriggerTree() 
