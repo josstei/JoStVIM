@@ -3,9 +3,8 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
+Plug 'josstei/vim-jostline'
 call plug#end()
-
-source ~/.vim/jost_statusline.vim
 
 " **********************************************************
 " ***************** GENERAL SETUP **************************
@@ -120,7 +119,7 @@ let g:NERDTreeWinPos = "left"
 
 autocmd FileType nerdtree vertical resize 31 
 
-autocmd VimEnter * call OnVimEnter() 
+autocmd VimEnter * call OnVimEnter() | call jostline#set()
 autocmd TabNew * call TriggerTree() 
 
 function! OnVimEnter()
@@ -288,3 +287,5 @@ function! ShowDefault()
   setlocal buftype= bufhidden=hide noswapfile
   setlocal nomodifiable
 endfunction
+
+
