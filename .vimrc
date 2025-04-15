@@ -119,7 +119,7 @@ let g:NERDTreeWinPos = "left"
 
 autocmd FileType nerdtree vertical resize 31 
 
-autocmd VimEnter * call OnVimEnter() | call jostline#set()
+autocmd VimEnter * call OnVimEnter() | call jostline#init()
 autocmd TabNew * call TriggerTree() 
 
 function! OnVimEnter()
