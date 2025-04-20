@@ -27,6 +27,33 @@ call plug#end()
 	set ts=4 sw=4
 	" - PREVENT SWAP FILE CREATION
 	set noswapfile
+	" - ALLOW SYSTEM CLIPBOARD IF APPLICABLE
+	if has('clipboard')
+	  set clipboard+=unnamedplus
+	endif
+
+" **********************************************************
+" ***************** JOSTLINE SETUP *************************
+" **********************************************************
+	let g:jostline_left_section_1_active_items     = ['windowNumber']
+	let g:jostline_left_section_1_active_highlight = ['#000000', '#c678dd']
+	let g:jostline_left_section_1_inactive_items     = ['windowNumber']
+	let g:jostline_left_section_1_inactive_highlight = ['#222222', '#5e4b6e']
+
+	let g:jostline_left_section_2_active_items     = ['mode']
+	let g:jostline_left_section_2_active_highlight = ['#efd7f6', '#4b2a55']
+	let g:jostline_left_section_2_inactive_items     = ['']
+	let g:jostline_left_section_2_inactive_highlight = ['#000000', '#c678dd']
+
+	let g:jostline_left_section_3_active_items = ['gitStats']
+	let g:jostline_left_section_3_active_highlight = ['#ffffff','#333333']
+	let g:jostline_left_section_3_inactive_items = ['']
+	let g:jostline_left_section_3_inactive_highlight = ['#000000','#c678dd']
+
+	let g:jostline_left_section_4_active_items = ['fileName']
+	let g:jostline_left_section_4_active_highlight = ['#000000','#c678dd']
+	let g:jostline_left_section_4_inactive_items = ['']
+	let g:jostline_left_section_4_inactive_highlight = ['#000000','#c678dd']
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
