@@ -1,9 +1,11 @@
 call plug#begin()
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/vader.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
+Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 " **********************************************************
@@ -24,7 +26,7 @@ call plug#end()
 	" - SET ENCODING FOR UTF - 8
 	set encoding=UTF-8
 	" - SET TAB TO 4 SPACES
-	set ts=4 sw=4
+	set ts=2 sw=2
 	" - PREVENT SWAP FILE CREATION
 	set noswapfile
 	" - ALLOW SYSTEM CLIPBOARD IF APPLICABLE
@@ -35,11 +37,12 @@ call plug#end()
 " **********************************************************
 " ***************** JOSTLINE SETUP *************************
 " **********************************************************
-	let g:jostline_theme = 'tokyonight'
 	let g:jostline_left_section_1_active = { 'items': ['windowNumber'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
 	let g:jostline_left_section_2_active = { 'items': ['mode'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
 	let g:jostline_left_section_3_active = { 'items': ['gitStats'], 'highlight': {'fg': '#ffffff','bg': '#333333'}}
 	let g:jostline_left_section_4_active = { 'items': ['fileName'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
+	let g:jostline_right_section_1_active = { 'items': ['fileType'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
+	let g:jostline_right_section_2_active = { 'items': ['modified'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
@@ -62,7 +65,7 @@ call plug#end()
 	 endif
 	 syntax enable
 	" SET COLORSCHEME 
-	colorscheme onedark
+	colorscheme dracula 
 
 " **********************************************************
 " ***************** FZF CONFIG *****************************
@@ -229,6 +232,10 @@ nnoremap mac :botright term ++close<CR>mvn clean<CR>
 nnoremap mai :botright term ++close<CR>mvn install<CR>
 " - MAVEN SPRING BOOT RUN
 nnoremap msb :botright term ++close<CR>mvn spring-boot:run<CR>
+
+" Map <leader>lt to run all Vader tests under tests/
+nnoremap <leader>lt :Vader --verbose tests/*.vader<CR>
+
 
 " **********************************************************
 " ***************** COMMENT SETUP **************************
