@@ -7,12 +7,10 @@ Plug 'josstei/vim-jostline'
 " THEMES
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'arcticicestudio/nord-vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
-Plug 'tanvirtin/monokai.nvim'
 Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
@@ -144,6 +142,7 @@ let g:NERDTreeWinPos = "left"
 
 autocmd FileType nerdtree vertical resize 31 
 
+autocmd VimEnter * call OnVimEnter() 
 autocmd TabNew * call TriggerTree() 
 
 function! OnVimEnter()
@@ -315,9 +314,3 @@ function! ShowDefault()
   setlocal buftype= bufhidden=hide noswapfile
   setlocal nomodifiable
 endfunction
-
-set makeprg=javac\ %
-compiler javac
-nnoremap <leader>cb :make<CR>
-nnoremap <leader>cr :!java %:r<CR>
-
