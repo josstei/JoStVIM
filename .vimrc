@@ -1,12 +1,21 @@
 call plug#begin()
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/vader.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
+" THEMES
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'morhetz/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'arcticicestudio/nord-vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'sainnhe/everforest'
+Plug 'tanvirtin/monokai.nvim'
+Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
+
 
 " **********************************************************
 " ***************** GENERAL SETUP **************************
@@ -65,7 +74,7 @@ call plug#end()
 	 endif
 	 syntax enable
 	" SET COLORSCHEME 
-	colorscheme dracula 
+	 colorscheme catppuccin_mocha
 
 " **********************************************************
 " ***************** FZF CONFIG *****************************
@@ -135,7 +144,6 @@ let g:NERDTreeWinPos = "left"
 
 autocmd FileType nerdtree vertical resize 31 
 
-autocmd VimEnter * call OnVimEnter() | call jostline#init()
 autocmd TabNew * call TriggerTree() 
 
 function! OnVimEnter()
@@ -308,4 +316,8 @@ function! ShowDefault()
   setlocal nomodifiable
 endfunction
 
+set makeprg=javac\ %
+compiler javac
+nnoremap <leader>cb :make<CR>
+nnoremap <leader>cr :!java %:r<CR>
 
