@@ -319,5 +319,4 @@ function! ShowDefault()
   setlocal buftype= bufhidden=hide noswapfile
   setlocal nomodifiable
 endfunction
-highlight EndOfBuffer ctermfg=NONE guifg=NONE
 
