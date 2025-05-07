@@ -4,6 +4,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
+Plug 'josstei/vim-easyops'
 " THEMES
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
@@ -51,9 +52,17 @@ call plug#end()
 	let g:jostline_left_section_3_active = { 'items': ['gitStats'], 'highlight': {'fg': '#ffffff','bg': '#333333'}}
 	let g:jostline_left_section_4_active = { 'items': ['fileName'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
 
+	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
+
 	" Right Section
 	let g:jostline_right_section_1_active = { 'items': ['fileType'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
 	let g:jostline_right_section_2_active = { 'items': ['modified'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
+	let g:jostline_right_section_3_active = { 'items': ['cursorPos'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
+
+	let g:jostline_separator_left = 'triangle'
+	let g:jostline_separator_right = 'triangle_bold'
+	let g:jostline_separator = 'triangle'
+	let g:jostline_subseparator = 'dot'
 
 " **********************************************************
 " ***************** NETRW SETUP ****************************
