@@ -1,5 +1,3 @@
-" [onedark.vim](https://github.com/joshdick/onedark.vim/)
-
 let s:overrides = get(g:, "onedark_color_overrides", {})
 
 let s:colors = {

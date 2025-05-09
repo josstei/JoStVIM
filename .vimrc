@@ -5,7 +5,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
-" THEMES
+" ***** THEMES *****
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
@@ -47,10 +47,10 @@ call plug#end()
 " ***************** JOSTLINE SETUP *************************
 " **********************************************************
 	" Left Section
-	let g:jostline_left_section_1_active = { 'items': ['windowNumber'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
-	let g:jostline_left_section_2_active = { 'items': ['mode'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
-	let g:jostline_left_section_3_active = { 'items': ['gitStats'], 'highlight': {'fg': '#ffffff','bg': '#333333'}}
-	let g:jostline_left_section_4_active = { 'items': ['fileName'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
+	let g:jostline_left_section_1_active = { 'items': ['windowNumber']}
+	let g:jostline_left_section_2_active = { 'items': ['mode'] }
+	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
+	let g:jostline_left_section_4_active = { 'items': ['fileName']}
 
 	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
 
@@ -152,7 +152,7 @@ let mapleader = " "
 " **********************************************************
 " FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
 let g:nerdtree_tabs_smart_startup_focus = 1
-let g:NERDTreeWinPos = "left" 
+let g:NERDTreeWinPos = 'left' 
 
 autocmd FileType nerdtree vertical resize 31 
 
