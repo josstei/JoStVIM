@@ -52,12 +52,12 @@ call plug#end()
 	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
 	let g:jostline_left_section_4_active = { 'items': ['fileName']}
 
-	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
+	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber']}
 
 	" Right Section
-	let g:jostline_right_section_1_active = { 'items': ['fileType'], 'highlight': {'fg': '#000000','bg': '#c678dd'}}
-	let g:jostline_right_section_2_active = { 'items': ['modified'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
-	let g:jostline_right_section_3_active = { 'items': ['cursorPos'], 'highlight': {'fg': '#ffffff','bg': '#4b2a55'}}
+	let g:jostline_right_section_1_active = { 'items': ['fileType'] }
+	let g:jostline_right_section_2_active = { 'items': ['modified'] }
+	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
 
 	let g:jostline_separator_left = 'triangle'
 	let g:jostline_separator_right = 'triangle_bold'
