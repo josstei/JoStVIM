@@ -59,8 +59,9 @@ call plug#end()
 	let g:jostline_right_section_2_active = { 'items': ['modified'] }
 	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
 
-	let g:jostline_separator_left = 'triangle'
-	let g:jostline_separator_right = 'triangle_bold'
+	let g:jostline_right_section_3_inactive= { 'items': ['fileName'] }
+
+	" Separator 
 	let g:jostline_separator = 'triangle'
 	let g:jostline_subseparator = 'dot'
 
