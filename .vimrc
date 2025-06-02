@@ -29,7 +29,7 @@ call plug#end()
 	" - TIMEOUT LENGTH BETWEEN KEYMAP KEYSTROKES ( IN MS )
 	set timeoutlen=500 
 	" - TERMINAL DISPLAYS 10 ROWS 
-	set termwinsize=10x 
+	set termwinsize=20x 
 	" - ALLOW MOUSE SUPPORT ( yuck )
 " 	set mouse=a
 	" - SET ENCODING FOR UTF - 8
@@ -330,3 +330,44 @@ function! ShowDefault()
   setlocal nomodifiable
 endfunction
 
+" ********** JAVA SETUP START **********
+set nocompatible
+syntax on
+filetype plugin indent on
+
+set number
+set tabstop=4 shiftwidth=4 expandtab
+set autoindent
+set smartindent
+
+autocmd FileType java setlocal omnifunc=s:javacomplete
+
+function! s:javacomplete(findstart, base)
+  if a:findstart
+    let line  = getline('.')
+    let start = col('.') - 1
+    while start > 0 && line[start - 1] =~ '\w'
+      let start -= 1
+    endwhile
+    return start
+  else
+    return ['toString()', 'equals()', 'hashCode()', 'notify()', 'wait()']
+  endif
+endfunction
+
+autocmd BufWritePost *.java call s:RunJavac()
+
+function! s:RunJavac()
+  let l:filename = expand('%:p')
+  let l:errors   = systemlist('javac ' . shellescape(l:filename))
+  call setqflist(map(copy(l:errors), '{ "text": v:val }'))
+  if len(l:errors)
+    botright copen
+  else
+    cclose
+  endif
+endfunction
+
+syntax match JavaTodoComment /\/\/\s*TODO.*/ containedin=javaComment
+highlight link JavaTodoComment Todo
+" ********** JAVA SETUP END **********
