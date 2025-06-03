@@ -93,7 +93,7 @@ call plug#end()
 " ***************** FZF CONFIG *****************************
 " **********************************************************
 	" SET FZF BUFFER OPEN AT BOTTOM 
-" 	let g:fzf_layout = {'down':'30%'}
+	let g:fzf_layout = {'down':'20%'}
 
 	autocmd! FileType fzf
 	autocmd FileType fzf set laststatus=0 noshowmode noruler
@@ -227,11 +227,11 @@ nnoremap <leader>bye :qa!<CR>
 
 		if empty(l:searchText) | echo "Cancelled." | return | endif
 
-		let l:cmd = 'grep -rnI --exclude-dir=.git ' . shellescape(l:searchText) . ' ' . shellescape(getcwd())
+		let l:cmd = 'grep -rniI --exclude-dir=.git ' . shellescape(l:searchText) . ' ' . shellescape(getcwd())
 		let l:results = systemlist(l:cmd)
 
 		if empty(l:results)
-			echo 'No Matches Found'
+			echo '  - No Matches Found - '
 			return
 		endif
 
