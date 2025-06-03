@@ -370,4 +370,18 @@ endfunction
 
 syntax match JavaTodoComment /\/\/\s*TODO.*/ containedin=javaComment
 highlight link JavaTodoComment Todo
+
 " ********** JAVA SETUP END **********
+
+" ********* EASYOPS CONFIG START ***********
+let g:easyops_commands_main = [
+    \ { 'label' : 'Git',    'command':'menu:git' },
+    \ { 'label' : 'Window', 'command':'menu:window' },
+    \ { 'label' : 'File',   'command':'menu:file' },
+    \ { 'label' : 'Code',   'command':'menu:code' },
+    \ { 'label' : 'Misc',   'command':'menu:easyopsconfig' }
+    \ ]
+let g:easyops_commands_code = [
+    \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
+    \ { 'label' : 'Vim',    'command':'menu:vim' }
+    \ ]
