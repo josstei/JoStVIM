@@ -439,5 +439,4 @@ endfunction
 
 nnoremap <silent> <Space>/ :call ToggleTerminal()<CR>
 tnoremap <silent> <Space>/ <C-\><C-n>:call ToggleTerminal()<CR>
-inoremap <silent> <Space>/ <Esc>:call ToggleTerminal()<CR>
 
