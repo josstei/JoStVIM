@@ -20,6 +20,9 @@ call plug#end()
 " **********************************************************
 " ***************** GENERAL SETUP **************************
 " **********************************************************
+    if !has('nvim')
+        set termwinsize=20x 
+    endif
 	" - DISPLAY LINE NUMBERS RELATIVE TO CURRENT LINE
 	set relativenumber
 	" - NOT CASE SENSITIVE FOR SEARCH 
@@ -28,10 +31,6 @@ call plug#end()
 	set cursorline
 	" - TIMEOUT LENGTH BETWEEN KEYMAP KEYSTROKES ( IN MS )
 	set timeoutlen=500 
-	" - TERMINAL DISPLAYS 10 ROWS 
-	set termwinsize=20x 
-	" - ALLOW MOUSE SUPPORT ( yuck )
-" 	set mouse=a
 	" - SET ENCODING FOR UTF - 8
 	set encoding=UTF-8
 	" - SET TAB TO 4 SPACES
@@ -245,16 +244,6 @@ nnoremap <leader>bye :qa!<CR>
 " ****** EXIT INSERT MODE ****** 
 inoremap jk <ESC> 
 
-" **********************************************************
-" ***************** JAVA SETUP - MAVEN *********************
-" **********************************************************
-" - MAVEN CLEAN
-nnoremap mac :botright term ++close<CR>mvn clean<CR>
-" - MAVEN INSTALL
-nnoremap mai :botright term ++close<CR>mvn install<CR>
-" - MAVEN SPRING BOOT RUN
-nnoremap msb :botright term ++close<CR>mvn spring-boot:run<CR>
-
 " Map <leader>lt to run all Vader tests under tests/
 nnoremap <leader>lt :Vader --verbose tests/*.vader<CR>
 
@@ -355,7 +344,7 @@ function! s:javacomplete(findstart, base)
   endif
 endfunction
 
-autocmd BufWritePost *.java call s:RunJavac()
+" autocmd BufWritePost *.java call s:RunJavac()
 
 function! s:RunJavac()
   let l:filename = expand('%:p')
@@ -385,3 +374,70 @@ let g:easyops_commands_code = [
     \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
     \ { 'label' : 'Vim',    'command':'menu:vim' }
     \ ]
+
+" let mapleader = "\<Space>"
+
+let g:term_bufnr = -1
+let g:term_winid = -1
+let g:prev_winid = -1
+
+function! ToggleTerminal() abort
+    if !exists(':terminal')
+        echoerr "Terminal not supported in this Vim"
+        return
+    endif
+
+    if g:term_winid != -1 && win_gotoid(g:term_winid)
+        if &buftype ==# 'terminal'
+            call feedkeys("\<C-\\>\<C-n>", 'n')
+            redraw
+            if has('nvim')
+                if exists('*term_getjob') && exists('*jobstop')
+                    let job = term_getjob(bufnr('%'))
+                    if job != v:null
+                        call jobstop(job)
+                    endif
+                endif
+            endif
+        endif
+
+        wincmd c
+
+        let g:term_winid = -1
+
+        if win_gotoid(g:prev_winid) == 0
+            wincmd p
+        endif
+       return
+    endif
+
+    let g:prev_winid = win_getid()
+
+    " gotta clean this up later
+    if has('nvim')
+        botright 15split
+        if !bufexists(g:term_bufnr) || !buflisted(g:term_bufnr)
+            terminal
+            let g:term_bufnr = bufnr('%')
+        else
+            execute 'buffer' g:term_bufnr
+        endif
+    else
+        if !bufexists(g:term_bufnr) || !buflisted(g:term_bufnr)
+            botright terminal
+            resize 15
+            let g:term_bufnr = bufnr('%')
+        else
+            botright 15split
+            execute 'buffer' g:term_bufnr
+        endif
+    endif
+
+    let g:term_winid = win_getid()
+    startinsert
+endfunction
+
+nnoremap <silent> <Space>/ :call ToggleTerminal()<CR>
+tnoremap <silent> <Space>/ <C-\><C-n>:call ToggleTerminal()<CR>
+inoremap <silent> <Space>/ <Esc>:call ToggleTerminal()<CR>
+
