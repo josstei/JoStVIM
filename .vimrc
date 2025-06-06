@@ -219,7 +219,7 @@ nnoremap <leader>bye :qa!<CR>
 	" SEARCH CWD FILES
 	nnoremap <leader><leader> :call FZFOpen(':Files')<CR>
 	" SEARCH CWD TEXT
-	nnoremap <leader>/ :SearchText<CR>
+	nnoremap <leader>t :SearchText<CR>
 
 	function! SearchTextInCurrentDir()
 		let l:searchText = input('Search For Text (Current Directory): ')
