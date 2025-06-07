@@ -44,28 +44,6 @@ call plug#end()
 	endif
 
 " **********************************************************
-" ***************** JOSTLINE SETUP *************************
-" **********************************************************
-	" Left Section
-	let g:jostline_left_section_1_active = { 'items': ['windowNumber']}
-	let g:jostline_left_section_2_active = { 'items': ['mode'] }
-	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
-	let g:jostline_left_section_4_active = { 'items': ['fileName']}
-
-	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber']}
-
-	" Right Section
-	let g:jostline_right_section_1_active = { 'items': ['fileType'] }
-	let g:jostline_right_section_2_active = { 'items': ['modified'] }
-	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
-
-	let g:jostline_right_section_3_inactive= { 'items': ['fileName'] }
-
-	" Separator 
-	let g:jostline_separator = 'triangle'
-	let g:jostline_subseparator = 'dot'
-
-" **********************************************************
 " ***************** NETRW SETUP ****************************
 " **********************************************************
 	let g:netrw_banner = 0
@@ -86,7 +64,7 @@ call plug#end()
 	endif
 	syntax enable
 	" SET COLORSCHEME 
-	colorscheme catppuccin_mocha
+	colorscheme dracula
 	set fillchars=eob:\ 
 	highlight EndOfBuffer ctermfg=NONE guifg=NONE
 " **********************************************************
@@ -363,19 +341,46 @@ highlight link JavaTodoComment Todo
 
 " ********** JAVA SETUP END **********
 
-" ********* EASYOPS CONFIG START ***********
-let g:easyops_commands_main = [
-    \ { 'label' : 'Git',    'command':'menu:git' },
-    \ { 'label' : 'Window', 'command':'menu:window' },
-    \ { 'label' : 'File',   'command':'menu:file' },
-    \ { 'label' : 'Code',   'command':'menu:code' },
-    \ { 'label' : 'Misc',   'command':'menu:easyopsconfig' }
-    \ ]
-let g:easyops_commands_code = [
-    \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
-    \ { 'label' : 'Vim',    'command':'menu:vim' }
-    \ ]
+" **********************************************************
+" ********************* JOSTLINE ***************************
+" **********************************************************
+	" Left Section
+	let g:jostline_left_section_1_active = { 'items': ['windowNumber']}
+	let g:jostline_left_section_2_active = { 'items': ['mode'] }
+	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
+	let g:jostline_left_section_4_active = { 'items': ['fileName']}
 
-nnoremap <silent> <Space>/ :TidyTerm<CR>
-tnoremap <silent> <Space>/ <C-\><C-n>:TidyTerm<CR>
+	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber']}
+
+	" Right Section
+	let g:jostline_right_section_1_active = { 'items': ['fileType'] }
+	let g:jostline_right_section_2_active = { 'items': ['modified'] }
+	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
+
+	let g:jostline_right_section_3_inactive= { 'items': ['fileName'] }
+
+	" Separator 
+	let g:jostline_separator = 'triangle'
+	let g:jostline_subseparator = 'dot'
+
+" **********************************************************
+" ********************** EASYOPS ***************************
+" **********************************************************
+    let g:easyops_commands_main = [
+        \ { 'label' : 'Git',    'command':'menu:git' },
+        \ { 'label' : 'Window', 'command':'menu:window' },
+        \ { 'label' : 'File',   'command':'menu:file' },
+        \ { 'label' : 'Code',   'command':'menu:code' },
+        \ { 'label' : 'Misc',   'command':'menu:easyopsconfig' }
+        \ ]
+    let g:easyops_commands_code = [
+        \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
+        \ { 'label' : 'Vim',    'command':'menu:vim' }
+        \ ]
+
+" **********************************************************
+" ********************* TIDYTER ****************************
+" **********************************************************
+    nnoremap <silent> <Space>/ :TidyTerm<CR>
+    tnoremap <silent> <Space>/ <C-\><C-n>:TidyTerm<CR>
 
