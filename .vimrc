@@ -21,66 +21,30 @@ call plug#end()
 " **********************************************************
 " ***************** GENERAL SETUP **************************
 " **********************************************************
-    if !has('nvim')
-        set termwinsize=20x 
-    endif
-	" - DISPLAY LINE NUMBERS RELATIVE TO CURRENT LINE
-	set relativenumber
-	" - NOT CASE SENSITIVE FOR SEARCH 
-	set ignorecase
-	" - HIGHLIGHT LINE CURSOR IS CURRENTLY ON
-	set cursorline
-	" - TIMEOUT LENGTH BETWEEN KEYMAP KEYSTROKES ( IN MS )
-	set timeoutlen=500 
-	" - SET ENCODING FOR UTF - 8
-	set encoding=UTF-8
-	" - SET TAB TO 4 SPACES
-	set ts=2 sw=2
-	" - PREVENT SWAP FILE CREATION
-	set noswapfile
-	" - ALLOW SYSTEM CLIPBOARD IF APPLICABLE
-	if has('clipboard')
-	  set clipboard+=unnamedplus
-	endif
 
-" **********************************************************
-" ***************** NETRW SETUP ****************************
-" **********************************************************
-	let g:netrw_banner = 0
-	" - PRESERVE CURRENT DIRECTORY
-	let g:netrw_keepdir = 1
-	" - TREE STYLE 
-	let g:netrw_liststyle = 3
-	" - SORT BY NAME 
-	let g:netrw_sort_options ='1' 
+    " - Allow system clipboard if applicable
+    if has('clipboard')     | set clipboard+=unnamedplus    | endif
+    " - Enables 24-bit RGB (true color) support in the terminal ic applicable
+	if has("termguicolors") | set termguicolors             | endif
 
-" **********************************************************
-" ***************** THEME START ****************************
-" **********************************************************
-	" THEME COMPATIBILITY
-	set nocompatible
-	if (has("termguicolors"))
-	  set termguicolors
-	endif
-	syntax enable
-	" SET COLORSCHEME 
-	colorscheme dracula
-	set fillchars=eob:\ 
-	highlight EndOfBuffer ctermfg=NONE guifg=NONE
-" **********************************************************
-" ***************** FZF CONFIG *****************************
-" **********************************************************
-	" SET FZF BUFFER OPEN AT BOTTOM 
-	let g:fzf_layout = {'down':'20%'}
+	set nocompatible                                " - Enables full Vim features (modern mode)
+	set relativenumber                              " - Display line numbers relative to current line
+    set number
+	set ignorecase                                  " - remove case sensitivity for search
+	set cursorline                                  " - Highlight line cursor is currently on
+	set timeoutlen=500                              " - Timeout length between keymap keystrokes (in ms)
+	set encoding=UTF-8                              " - Set encoding to UTF-8
+    set tabstop=4 shiftwidth=4 expandtab
+    set autoindent
+    set smartindent
+	set noswapfile                                  " - Prevent swap file creation
+	syntax on                                       " - Enable syntax highlighting
+	colorscheme dracula                             " - Set colorscheme
+	set fillchars=eob:\                             " - Hide characters at the end of the buffer
+    filetype plugin indent on
 
-	autocmd! FileType fzf
-	autocmd FileType fzf set laststatus=0 noshowmode noruler
-		\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-	function! FZFOpen(cmd)
-		call NavigateToOpenWindow()
-		exe a:cmd
-	endfunction
+    nnoremap <space> <nop>
+    let mapleader = " "    " - Remap leader to space 
 
 " ********************************************************************
 " ******************* WINDOW BUFFER BEHAVIOR START *******************
@@ -118,13 +82,6 @@ endfunction
 function! DoNavigate(window)
 	if a:window != 0 | execute ':'.a:window.'wincmd w ' | else | tabnew |endif	
 endfunction
-" ********************************************************************
-" ******************* WINDOW BUFFER BEHAVIOR END *********************
-" ********************************************************************
-
-" ****** LEADER REMAPPING ******
-nnoremap <space> <nop>
-let mapleader = " " 
 
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
@@ -223,8 +180,6 @@ nnoremap <leader>bye :qa!<CR>
 " ****** EXIT INSERT MODE ****** 
 inoremap jk <ESC> 
 
-" Map <leader>lt to run all Vader tests under tests/
-nnoremap <leader>lt :Vader --verbose tests/*.vader<CR>
 
 
 " **********************************************************
@@ -299,15 +254,6 @@ function! ShowDefault()
 endfunction
 
 " ********** JAVA SETUP START **********
-set nocompatible
-syntax on
-filetype plugin indent on
-
-set number
-set tabstop=4 shiftwidth=4 expandtab
-set autoindent
-set smartindent
-
 autocmd FileType java setlocal omnifunc=s:javacomplete
 
 function! s:javacomplete(findstart, base)
@@ -379,8 +325,23 @@ highlight link JavaTodoComment Todo
         \ ]
 
 " **********************************************************
-" ********************* TIDYTER ****************************
+" ********************* TIDYTERM ***************************
 " **********************************************************
     nnoremap <silent> <Space>/ :TidyTerm<CR>
     tnoremap <silent> <Space>/ <C-\><C-n>:TidyTerm<CR>
 
+" **********************************************************
+" ************************ FZF *****************************
+" **********************************************************
+	let g:fzf_layout = {'down':'20%'}
+    augroup jost_fzf
+        autocmd!
+        autocmd FileType fzf
+            \ set laststatus=0 noshowmode noruler |
+            \ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    augroup END
+
+    function! FZFOpen(cmd)
+        call NavigateToOpenWindow()
+        execute a:cmd
+    endfunction
