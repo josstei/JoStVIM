@@ -5,6 +5,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
+Plug 'josstei/vim-tidyterm'
 " ***** THEMES *****
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
@@ -375,68 +376,6 @@ let g:easyops_commands_code = [
     \ { 'label' : 'Vim',    'command':'menu:vim' }
     \ ]
 
-" let mapleader = "\<Space>"
-
-let g:term_bufnr = -1
-let g:term_winid = -1
-let g:prev_winid = -1
-
-function! ToggleTerminal() abort
-    if !exists(':terminal')
-        echoerr "Terminal not supported in this Vim"
-        return
-    endif
-
-    if g:term_winid != -1 && win_gotoid(g:term_winid)
-        if &buftype ==# 'terminal'
-            call feedkeys("\<C-\\>\<C-n>", 'n')
-            redraw
-            if has('nvim')
-                if exists('*term_getjob') && exists('*jobstop')
-                    let job = term_getjob(bufnr('%'))
-                    if job != v:null
-                        call jobstop(job)
-                    endif
-                endif
-            endif
-        endif
-
-        wincmd c
-
-        let g:term_winid = -1
-
-        if win_gotoid(g:prev_winid) == 0
-            wincmd p
-        endif
-       return
-    endif
-
-    let g:prev_winid = win_getid()
-
-    " gotta clean this up later
-    if has('nvim')
-        botright 15split
-        if !bufexists(g:term_bufnr) || !buflisted(g:term_bufnr)
-            terminal
-            let g:term_bufnr = bufnr('%')
-        else
-            execute 'buffer' g:term_bufnr
-        endif
-    else
-        if !bufexists(g:term_bufnr) || !buflisted(g:term_bufnr)
-            botright terminal
-            resize 15
-            let g:term_bufnr = bufnr('%')
-        else
-            botright 15split
-            execute 'buffer' g:term_bufnr
-        endif
-    endif
-
-    let g:term_winid = win_getid()
-    startinsert
-endfunction
-
-nnoremap <silent> <Space>/ :call ToggleTerminal()<CR>
-tnoremap <silent> <Space>/ <C-\><C-n>:call ToggleTerminal()<CR>
+nnoremap <silent> <Space>/ :TidyTerm<CR>
+tnoremap <silent> <Space>/ <C-\><C-n>:TidyTerm<CR>
 
