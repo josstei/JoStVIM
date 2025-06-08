@@ -327,8 +327,8 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ********************* TIDYTERM ***************************
 " **********************************************************
-    nnoremap <silent> <Space>/ :TidyTerm<CR>
-    tnoremap <silent> <Space>/ <C-\><C-n>:TidyTerm<CR>
+    nnoremap <silent> <C-_> :TidyTerm<CR>
+    tnoremap <silent> <C-_> <C-\><C-n>:TidyTerm<CR>
 
 " **********************************************************
 " ************************ FZF *****************************
