@@ -5,6 +5,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
+Plug 'josstei/vim-easyenv'
 Plug 'josstei/vim-tidyterm'
 " ***** THEMES *****
 Plug 'dracula/vim', { 'as': 'dracula' }
