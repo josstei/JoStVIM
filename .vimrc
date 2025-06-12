@@ -85,36 +85,10 @@ function! DoNavigate(window)
 endfunction
 
 " **********************************************************
-" ***************** NERD TREE SETUP ************************
-" **********************************************************
-"
-autocmd TabNew * call TriggerTree() 
-
-" function! OnVimEnter()
-" 	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
-" "  		call ShowDefault()
-" 	endif
-" 	call TriggerTree()
-" endfunction
-
-function! TriggerTree()
-	NERDTree | wincmd p 
-endfunction
-
-" - TOGGLE OPEN/CLOSE TREE 
-nnoremap <leader>e :NERDTreeToggle<CR>
-" - REMOVE TOP HELP MESSAGE
-let NERDTreeMinimalUI = 1
-
-" **********************************************************
 " ***************** TERMINAL SETUP *************************
 " **********************************************************
-" - OPEN TERMINAL AT BOTTOM 
-nnoremap <leader>t :botright term ++close<CR>
-" - CLEAR AND CLOSE TERMINAL BUFFER 
-tnoremap <c-d> :Tclear<CR><c-d>
-" - SET TERMINAL INTO SCROLL MODE
-tnoremap <c-n> <c-\><c-n>
+    " - SET TERMINAL INTO SCROLL MODE
+    tnoremap <c-n> <c-\><c-n>
 
 " **********************************************************
 " ***************** FILE SETUP *****************************
@@ -299,3 +273,33 @@ highlight link JavaTodoComment Todo
         call NavigateToOpenWindow()
         execute a:cmd
     endfunction
+
+" **********************************************************
+" ***************** NERD TREE SETUP ************************
+" **********************************************************
+let NERDTreeMinimalUI = 1
+
+augroup NerdTreeHandler
+    autocmd!
+    autocmd TabNew,VimEnter * NERDTree | wincmd p 
+augroup END
+
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" move this out into the dashboard.vim
+augroup DashboardAutoCenter
+    autocmd!
+    autocmd VimResized,WinEnter,BufWinEnter * call DashboardResize()
+augroup END
+
+function! DashboardResize() abort
+    for winnr in range(1, winnr('$'))
+        let bufnr = winbufnr(winnr)
+        if getbufvar(bufnr, '&filetype') ==# 'dashboard'
+            let curwin = winnr()
+            execute winnr . 'wincmd w'
+            call dashboard#Draw()
+            execute curwin . 'wincmd w'
+        endif
+    endfor
+endfunction
