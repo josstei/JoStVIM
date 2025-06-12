@@ -126,22 +126,28 @@ nnoremap <leader>bye :qa!<CR>
 	" SEARCH CWD TEXT
 	nnoremap <leader>t :SearchText<CR>
 
-	function! SearchTextInCurrentDir()
-		let l:searchText = input('Search For Text (Current Directory): ')
+    function! SearchTextInCurrentDir()
+        let l:searchText = input('Search For Text (Current Directory): ')
+        if empty(l:searchText)
+            echo "Cancelled."
+            return
+        endif
 
-		if empty(l:searchText) | echo "Cancelled." | return | endif
+        if has('win32') || has('win64')
+            let l:cmd = 'findstr /S /N /I /P /C:' . shellescape(l:searchText) . ' *'
+        else
+            let l:cmd = 'grep -rniI --exclude-dir=.git ' . shellescape(l:searchText) . ' .'
+        endif
 
-		let l:cmd = 'grep -rniI --exclude-dir=.git ' . shellescape(l:searchText) . ' ' . shellescape(getcwd())
-		let l:results = systemlist(l:cmd)
+        let l:results = systemlist(l:cmd)
+        if empty(l:results)
+            echo '  - No Matches Found - '
+            return
+        endif
 
-		if empty(l:results)
-			echo '  - No Matches Found - '
-			return
-		endif
-
-		call setqflist([], 'r', {'lines':l:results,'title':'Search Results'})
-		copen
-	endfunction
+        call setqflist([], 'r', {'lines':l:results,'title':'Search Results'})
+        copen
+    endfunction
 
 	command! SearchText call SearchTextInCurrentDir()
 	autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
