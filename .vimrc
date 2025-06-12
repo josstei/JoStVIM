@@ -87,21 +87,15 @@ endfunction
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
-" FORCE NERDTree TO ALWAYS OPEN ON THE LEFT WITH A WIDTH OF 31 COLUMNS
-let g:nerdtree_tabs_smart_startup_focus = 1
-let g:NERDTreeWinPos = 'left' 
-
-autocmd FileType nerdtree vertical resize 31 
-
-autocmd VimEnter * call OnVimEnter() 
+"
 autocmd TabNew * call TriggerTree() 
 
-function! OnVimEnter()
-	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
- 		call ShowDefault()
-	endif
-	call TriggerTree()
-endfunction
+" function! OnVimEnter()
+" 	if argc() == 0 || (argc() == 1 && isdirectory(argv(0)))
+" "  		call ShowDefault()
+" 	endif
+" 	call TriggerTree()
+" endfunction
 
 function! TriggerTree()
 	NERDTree | wincmd p 
@@ -212,47 +206,6 @@ noremap <leader>cu :<C-B>silent s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> 
 " Mappings for commenting
 vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-
-function! ShowDefault()
-	enew
-  let l:default= [
-        \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
-        \ '{}                                                                                          {}',
-        \ '{}                                                                                          {}',
-        \ '{}            █████           █████████   █████    █████   █████ █████ ██████   ██████      {}',
-        \ '{}           ░░███           ███░░░░░███ ░░███    ░░███   ░░███ ░░███ ░░██████ ██████       {}',
-        \ '{}            ░███   ██████ ░███    ░░░  ███████   ░███    ░███  ░███  ░███░█████░███       {}',
-        \ '{}            ░███  ███░░███░░█████████ ░░░███░    ░███    ░███  ░███  ░███░░███ ░███       {}',
-        \ '{}            ░███ ░███ ░███ ░░░░░░░░███  ░███     ░░███   ███   ░███  ░███ ░░░  ░███       {}',
-        \ '{}      ███   ░███ ░███ ░███ ███    ░███  ░███ ███  ░░░█████░    ░███  ░███      ░███       {}',
-        \ '{}     ░░████████  ░░██████ ░░█████████   ░░█████     ░░███      █████ █████     █████      {}',
-        \ '{}      ░░░░░░░░    ░░░░░░   ░░░░░░░░░     ░░░░░       ░░░      ░░░░░ ░░░░░     ░░░░░       {}',
-        \ '{}                                                                                          {}',
-        \ '{}                                                                                          {}',
-        \ '{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}',
-        \ '',
-        \ "═══════════════════════════════════════ QUICK START ══════════════════════════════════════════",
-        \ "                                            "."                                               ",
-        \ "🧭 WINDOW NAVIGATION                        "." 🖊 FILE SAVE/QUIT                             ",
-        \ " ▶ <space> 1-6 → Focus to window number     "." ▶ <Space> fs  → Save buffer                   ",
-        \ " ▶ <space> wv  → Split window (vertical)    "." ▶ <Space> fq  → Close buffer                  ",
-        \ " ▶ <space> wh  → Split window (horizontal)  "." ▶ <Space> ffq → Force quit buffer             ",
-        \ "                                            "." ▶ <Space> bye → Force quit all/Exit JoStVIM   ",
-        \ " 📂 SEARCHING FILES/TEXT                    "."                                               ", 
-        \ " ▶ <space><space> → Search All Files        "." 🗂 TERMINAL                                   ", 
-        \ " ▶ <space> /      → Search All Text         "." ▶ <Space> t  → Open terminal                  ",
-        \ "                                            "." ▶ <Ctrl + d> → Closeterminal                  ",
-        \ " 📝 COMMENT CODE                            "."                                               ",
-        \ " ▶ <Space> cc → Comment line/selection      "."                                               ",
-        \ " ▶ <Space> cu → Uncomment line/selection    "."                                               ",
-        \ "                                            "."                                               ",
-        \ "══════════════════════════════════════════════════════════════════════════════════════════════"
-        \ ]
-
-  call setline(1, l:default)
-  setlocal buftype= bufhidden=hide noswapfile
-  setlocal nomodifiable
-endfunction
 
 " ********** JAVA SETUP START **********
 autocmd FileType java setlocal omnifunc=s:javacomplete
