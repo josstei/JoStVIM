@@ -40,9 +40,13 @@ call plug#end()
     set smartindent
 	set noswapfile                                  " - Prevent swap file creation
 	syntax on                                       " - Enable syntax highlighting
-	colorscheme dracula                             " - Set colorscheme
 	set fillchars=eob:\                             " - Hide characters at the end of the buffer
     filetype plugin indent on
+
+    try
+      colorscheme dracula
+    catch /.*/
+    endtry
 
     nnoremap <space> <nop>
     let mapleader = " "    " - Remap leader to space 
