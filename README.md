@@ -5,7 +5,7 @@
 This environment is fully functional and available for use, but is still under active development.  
 Feedback, contributions, and patience are welcome.
 
-## JoStVIM - Fast setup, faster coding**
+## JoStVIM - Fast setup, faster coding
 
 JoStVIM is a tailored Vim/Neovim configuration that boosts productivity for developers across languages and stacks. It brings together a rich set of plugins, sensible defaults, custom mappings, and a ready-to-use project structure. Designed for general development workflows and flexible enough for specialized needs.
 
@@ -28,6 +28,8 @@ This plugin requires either Vim or Neovim to be installed on your system.
 
 - [Download Neovim](https://github.com/neovim/neovim/releases) (recommended)
 - [Download Vim](http://www.vim.org/download.php)
+
+If you are new to Vim or Neovim see [Vim / Neovim Quick Reference](#vim--neovim-quick-reference) to get started.
 
 ## Installing JoStVIM
 
@@ -166,6 +168,114 @@ You may edit `.vimrc` to add/remove plugins or change settings as you like. To a
 To remove JoStVIM, simply delete the cloned directory and remove the aliases from your shell profile.
 
 ---
+
+# 📝 Vim / Neovim Quick Reference
+
+A minimal cheat sheet for everyday use. Focused on:
+- Moving around
+- Editing (inserting, deleting)
+- Modes: Normal / Insert / Visual
+
+---
+
+## 🔄 Modes
+
+| Mode   | Key to Enter | Description                      |
+|--------|--------------|----------------------------------|
+| Normal | `<Esc>`      | Default mode for navigation      |
+| Insert | `i`          | Start typing before the cursor   |
+|        | `I`          | Start typing at line start       |
+|        | `a`          | Start typing after the cursor    |
+|        | `A`          | Start typing at line end         |
+| Visual | `v`          | Character-wise selection         |
+|        | `V`          | Line-wise selection              |
+|        | `Ctrl+v`     | Block/column selection (Visual Block) |
+
+---
+
+## 🚶 Cursor Movement (Normal Mode)
+
+| Key(s)   | Action                          |
+|----------|---------------------------------|
+| `h`      | Left                            |
+| `l`      | Right                           |
+| `j`      | Down                            |
+| `k`      | Up                              |
+| `0`      | Start of line                   |
+| `^`      | First non-whitespace character  |
+| `$`      | End of line                     |
+| `w`      | Next word                       |
+| `b`      | Previous word                   |
+| `gg`     | Go to top of file               |
+| `G`      | Go to bottom of file            |
+| `:n`     | Go to line `n`                  |
+
+---
+
+## ✏️ Inserting Text
+
+| Key   | Action                             |
+|--------|------------------------------------|
+| `i`    | Insert before cursor               |
+| `I`    | Insert at line start               |
+| `a`    | Append after cursor                |
+| `A`    | Append at line end                 |
+| `o`    | Open new line below                |
+| `O`    | Open new line above                |
+
+---
+
+## ❌ Deleting Text
+
+| Key     | Action                              |
+|---------|-------------------------------------|
+| `x`     | Delete character under cursor       |
+| `dd`    | Delete current line                 |
+| `d$`    | Delete to end of line               |
+| `D`     | Same as `d$`                        |
+| `dw`    | Delete word                         |
+| `d0`    | Delete to start of line             |
+| `d^`    | Delete to first non-whitespace char |
+| `v + d` | Delete selected text in visual mode |
+
+---
+
+## 📋 Copy & Paste (Yank & Put)
+
+| Key     | Action                             |
+|---------|------------------------------------|
+| `yy`    | Yank (copy) current line           |
+| `yw`    | Yank word                          |
+| `y$`    | Yank to end of line                |
+| `p`     | Paste after cursor                 |
+| `P`     | Paste before cursor                |
+| `v + y` | Yank selected text (Visual Mode)   |
+
+---
+
+## 🔁 Undo / Redo
+
+| Key     | Action            |
+|---------|-------------------|
+| `u`     | Undo              |
+| `Ctrl+r`| Redo              |
+
+---
+
+## 🏁 Saving & Exiting
+
+| Key          | Action              |
+|---------------|---------------------|
+| `:w`          | Save                |
+| `:q`          | Quit                |
+| `:wq` or `ZZ` | Save and quit       |
+| `:q!`         | Quit without saving |
+
+---
+
+> 💡 Tip: Start in Normal mode and build muscle memory with movement and `d`, `y`, `p`, `u`, and mode switches.
+
+
 
 ## License
 
