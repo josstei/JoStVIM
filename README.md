@@ -2,7 +2,7 @@
 # JoStVIM
 ## 🚧 Work in Progress
 
-This environment is fully functional and available for use, but is still under active development.  
+This environment is available for use, but is still under active development.  
 Feedback, contributions, and patience are welcome.
 
 ## JoStVIM - Fast setup, faster coding
