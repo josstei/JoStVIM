@@ -29,7 +29,7 @@ This plugin requires either Vim or Neovim to be installed on your system.
 - [Download Neovim](https://github.com/neovim/neovim/releases) (recommended)
 - [Download Vim](http://www.vim.org/download.php)
 
-If you are new to Vim or Neovim see [Vim / Neovim Quick Reference](#vim--neovim-quick-reference) to get started.
+If you are new to Vim or Neovim see [Vim & Neovim Quick Reference](#vim--neovim-quick-reference) to get started.
 
 ## Installing JoStVIM
 
@@ -169,7 +169,7 @@ To remove JoStVIM, simply delete the cloned directory and remove the aliases fro
 
 ---
 
-# 📝 Vim / Neovim Quick Reference
+# Vim & Neovim Quick Reference
 
 A minimal cheat sheet for everyday use. Focused on:
 - Moving around
