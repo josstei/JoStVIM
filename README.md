@@ -1,7 +1,11 @@
 ![Stable](https://img.shields.io/badge/status-in_development-orange) ![License](https://img.shields.io/badge/license-MIT-blue)
 # JoStVIM
+## 🚧 Work in Progress
 
-**JoStVIM - Fast setup, faster coding**
+This environment is fully functional and available for use, but is still under active development.  
+Feedback, contributions, and patience are welcome.
+
+## JoStVIM - Fast setup, faster coding**
 
 JoStVIM is a tailored Vim/Neovim configuration that boosts productivity for developers across languages and stacks. It brings together a rich set of plugins, sensible defaults, custom mappings, and a ready-to-use project structure. Designed for general development workflows and flexible enough for specialized needs.
 
