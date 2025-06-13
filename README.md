@@ -1,3 +1,4 @@
+![Stable](https://img.shields.io/badge/status-in_development-orange) ![License](https://img.shields.io/badge/license-MIT-blue)
 # JoStVIM
 
 **JoStVIM - Fast setup, faster coding**
