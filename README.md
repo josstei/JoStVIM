@@ -26,7 +26,7 @@ JoStVIM is a tailored Vim/Neovim configuration that boosts productivity for deve
 
 This plugin requires either Vim or Neovim to be installed on your system.
 
-- [Download Neovim](https://github.com/neovim/neovim/releases)
+- [Download Neovim](https://github.com/neovim/neovim/releases) (recommended)
 - [Download Vim](http://www.vim.org/download.php)
 
 ## Installing JoStVIM
@@ -84,6 +84,7 @@ This plugin requires either Vim or Neovim to be installed on your system.
 | `<leader>wh`        | Normal      | Split window horizontally                 |
 | `<leader>1-6`       | Normal      | Jump to window 1-6                        |
 | `<leader>e`         | Normal      | Toggle NERDTree file explorer             |
+| `<leader>m`         | Normal      | Open EasyOps Menu                         |
 | `<leader><leader>`  | Normal      | Fuzzy open file in current directory      |
 | `<leader>t`         | Normal      | Fuzzy search text in current directory    |
 | `<leader>fs`        | Normal      | Save file                                 |
@@ -92,7 +93,7 @@ This plugin requires either Vim or Neovim to be installed on your system.
 | `<leader>bye`       | Normal      | Force quit all                            |
 | `<leader>cc`        | Normal/Visual| Comment line(s)                          |
 | `<leader>cu`        | Normal/Visual| Uncomment line(s)                        |
-| `<Ctrl-/>`             | Normal/Term | Toggle TidyTerm terminal                  |
+| `<Ctrl-/>`          | Normal/Term | Toggle TidyTerm terminal                  |
 | `jk`                | Insert      | Exit insert mode                          |
 
 ---
