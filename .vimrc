@@ -1,4 +1,4 @@
-call plug#begin()
+call plug#begin(expand('<sfile>:p:h') . '/plugged')
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
