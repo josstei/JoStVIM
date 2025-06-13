@@ -18,8 +18,14 @@ JoStVIM is a tailored Vim/Neovim configuration that boosts productivity for deve
 - **Portable and self-contained:** Use the provided install.sh script — no need to touch your global Vim/Neovim config.
 
 ---
+## Installing Vim/Neovim
 
-## Installation
+This plugin requires either Vim or Neovim to be installed on your system.
+
+- [Download Neovim](https://github.com/neovim/neovim/releases)
+- [Download Vim](http://www.vim.org/download.php)
+
+## Installing JoStVIM
 
 **Requirements:**  
 - Bash shell (Linux/macOS/WSL)
