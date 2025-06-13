@@ -1,3 +1,4 @@
+# JoStVIM Unix/Linux Installer
 #!/usr/bin/env bash
 
 set -e
