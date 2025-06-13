@@ -1,4 +1,4 @@
-# JoStVIM PowerShell Installer
+# JoStVIM PowerShell Installer - Not fully functional yet !
 
 $repoDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $pluggedDir = Join-Path $repoDir 'plugged'
