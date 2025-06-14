@@ -1,3 +1,5 @@
+let s:dashboard  = []
+
 function! dashboard#Open() abort
     call dashboard#buffer#Create()
     call dashboard#Build()
@@ -5,15 +7,22 @@ function! dashboard#Open() abort
 endfunction
 
 function! dashboard#Build() abort
-    let s:dashboard  = [] 
-    call extend(s:dashboard,g:dashboard_logo)
-    call extend(s:dashboard,call('dashboard#menu#options', [g:dashboard_options]))
-    call extend(s:dashboard,g:dashboard_extras)
+    if empty(s:dashboard)
+        call extend(s:dashboard,g:dashboard_logo)
+        call extend(s:dashboard,call('dashboard#menu#options', [g:dashboard_options]))
+        call extend(s:dashboard,g:dashboard_extras)
+    endif
+endfunction
+
+function! dashboard#Clear() abort
+    silent! %delete _
 endfunction
 
 function! dashboard#Draw() abort
     setlocal modifiable
+    call dashboard#Clear()
     call dashboard#Print()
+    call cursor(1, 1)
     setlocal nomodifiable
 endfunction
 
@@ -23,7 +32,6 @@ function! dashboard#Print() abort
     let l:dashboard = map(copy(s:dashboard), {_, val -> repeat(' ', float2nr((s:width - strwidth(val)) / 2)) . val})
 
     call append(0, repeat([''], s:pad_top) + l:dashboard)
-    call cursor(1, 1)
 endfunction
 
 function! dashboard#Resize() abort
