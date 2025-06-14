@@ -250,6 +250,7 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ********************** EASYOPS ***************************
 " **********************************************************
+    nnoremap <silent> <leader>m :EasyOps<CR>
     let g:easyops_commands_main = [
         \ { 'label' : 'Git',    'command':'menu:git' },
         \ { 'label' : 'Window', 'command':'menu:window' },
@@ -296,11 +297,9 @@ augroup END
 
 nnoremap <leader>e :NERDTreeToggle<CR>
 
-
 " **********************************************************
 " ***************** DASHBOARD SETUP l************************
 " **********************************************************
-
 let g:dashboard_options = ['newfile','recentfiles','quitall']
 let g:dashboard_extras  = [strftime('%c'),'']
 let g:dashboard_name    = 'Jostvim' 
