@@ -22,7 +22,6 @@ call plug#end()
 " **********************************************************
 " ***************** GENERAL SETUP **************************
 " **********************************************************
-
     " - Allow system clipboard if applicable
     if has('clipboard')     | set clipboard+=unnamedplus    | endif
     " - Enables 24-bit RGB (true color) support in the terminal ic applicable
@@ -43,13 +42,11 @@ call plug#end()
 	set fillchars=eob:\                             " - Hide characters at the end of the buffer
     filetype plugin indent on
 
-    try
-      colorscheme dracula
-    catch /.*/
-    endtry
+    try | colorscheme dracula | catch /.*/ | endtry
 
     nnoremap <space> <nop>
     let mapleader = " "    " - Remap leader to space 
+    inoremap jk <ESC> 
 
 " ********************************************************************
 " ******************* WINDOW BUFFER BEHAVIOR START *******************
@@ -91,29 +88,21 @@ endfunction
 " **********************************************************
 " ***************** TERMINAL SETUP *************************
 " **********************************************************
-    " - SET TERMINAL INTO SCROLL MODE
     tnoremap <c-n> <c-\><c-n>
 
 " **********************************************************
 " ***************** FILE SETUP *****************************
 " **********************************************************
-" - FILE QUIT
-nnoremap <leader>fq :q<CR>
-nnoremap <leader>fs :w<CR>
-" - FILE FORCE QUIT
-nnoremap <leader>FQ :q!<CR>
-" - FILE FORCE QUIT ALL ******
-nnoremap <leader>bye :qa!<CR>
+    nnoremap <leader>fq :q<CR>
+    nnoremap <leader>fs :w<CR>
+    nnoremap <leader>FQ :q!<CR>
+    nnoremap <leader>bye :qa!<CR>
 
 " **********************************************************
 " ***************** WINDOW NAV START ***********************
 " **********************************************************
-
-	" WINDOW SPLIT ( VERTICAL )
 	nnoremap <leader>wv :rightbelow vs new<CR>
-	" WINDOW SPLIT ( HORIZONTAL )
 	nnoremap <leader>wh :rightbelow split new<CR>
-	" WINDOW NAVIGATION
 	nnoremap <leader>1 :1wincmd w<CR>
 	nnoremap <leader>2 :2wincmd w<CR>
 	nnoremap <leader>3 :3wincmd w<CR>
@@ -124,10 +113,7 @@ nnoremap <leader>bye :qa!<CR>
 " **********************************************************
 " ***************** FILE / TEXT SEARCH START ***************
 " **********************************************************
-
-	" SEARCH CWD FILES
 	nnoremap <leader><leader> :call FZFOpen(':Files')<CR>
-	" SEARCH CWD TEXT
 	nnoremap <leader>t :SearchText<CR>
 
     function! SearchTextInCurrentDir()
@@ -156,15 +142,9 @@ nnoremap <leader>bye :qa!<CR>
 	command! SearchText call SearchTextInCurrentDir()
 	autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
-" ****** EXIT INSERT MODE ****** 
-inoremap jk <ESC> 
-
-
-
 " **********************************************************
 " ***************** COMMENT SETUP **************************
 " **********************************************************
-" - COMMENT SYNTAX BY LANGUAGE
 let g:comment_map = {
       \ 'c':        '// ',
       \ 'cpp':      '// ',
@@ -180,14 +160,12 @@ let g:comment_map = {
       \ 'vim':      '" '
       \ }
 
-" Function to get the comment string based on the current filetype
 function! GetComment()
   return get(g:comment_map, &filetype, '# ')
 endfunction
-" Mappings for commenting/uncommenting
+
 noremap <leader>cc :<C-B>silent s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
 noremap <leader>cu :<C-B>silent s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-" Mappings for commenting
 vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
 vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
@@ -223,27 +201,20 @@ endfunction
 syntax match JavaTodoComment /\/\/\s*TODO.*/ containedin=javaComment
 highlight link JavaTodoComment Todo
 
-" ********** JAVA SETUP END **********
-
 " **********************************************************
 " ********************* JOSTLINE ***************************
 " **********************************************************
-	" Left Section
 	let g:jostline_left_section_1_active = { 'items': ['windowNumber']}
 	let g:jostline_left_section_2_active = { 'items': ['mode'] }
 	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
 	let g:jostline_left_section_4_active = { 'items': ['fileName']}
-
 	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber']}
 
-	" Right Section
 	let g:jostline_right_section_1_active = { 'items': ['fileType'] }
 	let g:jostline_right_section_2_active = { 'items': ['modified'] }
 	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
-
 	let g:jostline_right_section_3_inactive= { 'items': ['fileName'] }
 
-	" Separator 
 	let g:jostline_separator = 'triangle'
 	let g:jostline_subseparator = 'dot'
 
