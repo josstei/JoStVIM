@@ -250,19 +250,18 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ********************** EASYOPS ***************************
 " **********************************************************
-    nnoremap <silent> <leader>m :EasyOps<CR>
     let g:easyops_commands_main = [
         \ { 'label' : 'Git',    'command':'menu:git' },
         \ { 'label' : 'Window', 'command':'menu:window' },
         \ { 'label' : 'File',   'command':'menu:file' },
-        \ { 'label' : 'Code',   'command':'menu:code' },
-        \ { 'label' : 'Misc',   'command':'menu:easyopsconfig' }
+        \ { 'label' : 'Code',   'command':'menu:code' }
         \ ]
     let g:easyops_commands_code = [
         \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
         \ { 'label' : 'Vim',    'command':'menu:vim' }
         \ ]
 
+    nnoremap <silent> <leader>m :EasyOps<CR>
 " **********************************************************
 " ********************* TIDYTERM ***************************
 " **********************************************************
@@ -273,6 +272,7 @@ highlight link JavaTodoComment Todo
 " ************************ FZF *****************************
 " **********************************************************
 	let g:fzf_layout = {'down':'20%'}
+
     augroup jost_fzf
         autocmd!
         autocmd FileType fzf
@@ -288,28 +288,28 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ***************** NERD TREE SETUP ************************
 " **********************************************************
-let NERDTreeMinimalUI = 1
+    let NERDTreeMinimalUI = 1
 
-augroup NerdTreeHandler
-    autocmd!
-    autocmd TabNew,VimEnter * NERDTree | wincmd p 
-augroup END
+    augroup NerdTreeHandler
+        autocmd!
+        autocmd TabNew,VimEnter * NERDTree | wincmd p
+    augroup END
 
-nnoremap <leader>e :NERDTreeToggle<CR>
+    nnoremap <leader>e :NERDTreeToggle<CR>
 
 " **********************************************************
 " ***************** DASHBOARD SETUP l************************
 " **********************************************************
-let g:dashboard_options = ['newfile','recentfiles','quitall']
-let g:dashboard_extras  = [strftime('%c'),'']
-let g:dashboard_name    = 'Jostvim' 
-let g:dashboard_logo    = [
-    \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
-    \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
-    \ '     ██║██║   ██║███████╗   ██║   ██║   ██║██║██╔████╔██║',
-    \ '██   ██║██║   ██║╚════██║   ██║   ██║   ██║██║██║╚██╔╝██║',
-    \ '╚█████╔╝╚██████╔╝███████║   ██║   ╚██████╔╝██║██║ ╚═╝ ██║',
-    \ ' ╚════╝  ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝╚═╝     ╚═╝',
-    \ ''
-    \ ] 
+    let g:dashboard_options = ['newfile','recentfiles','quitall']
+    let g:dashboard_extras  = [strftime('%c'),'']
+    let g:dashboard_name    = 'Jostvim'
+    let g:dashboard_logo    = [
+        \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
+        \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
+        \ '     ██║██║   ██║███████╗   ██║   ██║   ██║██║██╔████╔██║',
+        \ '██   ██║██║   ██║╚════██║   ██║   ██║   ██║██║██║╚██╔╝██║',
+        \ '╚█████╔╝╚██████╔╝███████║   ██║   ╚██████╔╝██║██║ ╚═╝ ██║',
+        \ ' ╚════╝  ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝╚═╝     ╚═╝',
+        \ ''
+        \ ]
 
