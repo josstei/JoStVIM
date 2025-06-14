@@ -6,3 +6,7 @@ autocmd VimEnter * if argc() == 0 && !exists('g:dashboard_loaded') |
       \ call dashboard#Open() |
       \ endif
 
+augroup DashboardAutoCenter
+    autocmd!
+    autocmd VimResized,WinEnter,BufWinEnter * call dashboard#Resize()
+augroup END

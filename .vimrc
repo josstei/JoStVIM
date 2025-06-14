@@ -296,20 +296,21 @@ augroup END
 
 nnoremap <leader>e :NERDTreeToggle<CR>
 
-" move this out into the dashboard.vim
-augroup DashboardAutoCenter
-    autocmd!
-    autocmd VimResized,WinEnter,BufWinEnter * call DashboardResize()
-augroup END
 
-function! DashboardResize() abort
-    for winnr in range(1, winnr('$'))
-        let bufnr = winbufnr(winnr)
-        if getbufvar(bufnr, '&filetype') ==# 'dashboard'
-            let curwin = winnr()
-            execute winnr . 'wincmd w'
-            call dashboard#Draw()
-            execute curwin . 'wincmd w'
-        endif
-    endfor
-endfunction
+" **********************************************************
+" ***************** DASHBOARD SETUP l************************
+" **********************************************************
+
+let g:dashboard_options = ['newfile','recentfiles','quitall']
+let g:dashboard_extras  = [strftime('%c'),'']
+let g:dashboard_name    = 'Jostvim' 
+let g:dashboard_logo    = [
+    \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
+    \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
+    \ '     ██║██║   ██║███████╗   ██║   ██║   ██║██║██╔████╔██║',
+    \ '██   ██║██║   ██║╚════██║   ██║   ██║   ██║██║██║╚██╔╝██║',
+    \ '╚█████╔╝╚██████╔╝███████║   ██║   ╚██████╔╝██║██║ ╚═╝ ██║',
+    \ ' ╚════╝  ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝╚═╝     ╚═╝',
+    \ ''
+    \ ] 
+
