@@ -7,6 +7,7 @@ Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
 Plug 'josstei/vim-tidyterm'
+Plug 'josstei/vim-backtrack'
 " ***** THEMES *****
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
@@ -271,10 +272,13 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ***************** DASHBOARD SETUP l************************
 " **********************************************************
-    let g:dashboard_options = ['newfile','recentfiles','quitall']
-    let g:dashboard_extras  = [strftime('%c'),'']
-    let g:dashboard_name    = 'Jostvim'
-    let g:dashboard_logo    = [
+    let g:dashboard_menu_fzf        = { "keymap":"s", "label":"Search Project", "command":":Files<CR>" }
+    let g:dashboard_menu_backtrack  = { "keymap":"r", "label":"Recent Files", "command":":Backtrack<CR>" }
+
+    let g:dashboard_options     = ['newfile','backtrack','fzf','quitall']
+    let g:dashboard_extras      = [strftime('%c'),'']
+    let g:dashboard_name        = 'Jostvim'
+    let g:dashboard_logo        = [
         \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
         \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
         \ '     ██║██║   ██║███████╗   ██║   ██║   ██║██║██╔████╔██║',
@@ -284,3 +288,7 @@ highlight link JavaTodoComment Todo
         \ ''
         \ ]
 
+" **********************************************************
+" ***************** DASHBOARD SETUP l************************
+" **********************************************************
+    let g:backtrack_split = ''
