@@ -73,19 +73,6 @@ If you are new to Vim or Neovim see [Vim & Neovim Quick Reference](#vim--neovim-
 
 ---
 
-## Key Customizations
-
-- **Dashboard menu:** Quick access to new file, recent files (Backtrack), project search, and quit from the dashboard.
-- **Window and buffer navigation:** Custom mappings and logic for splitting, jumping, and managing buffers—skips non-editable/utility windows.
-- **File operations:** Quick save, quit, and force-quit mappings.
-- **Fuzzy search:** Fast file and text search via FZF.
-- **NERDTree integration:** Toggle file explorer with `<leader>e`, auto-open on start.
-- **Custom commenting:** Mappings for quickly commenting/uncommenting code, language-aware.
-- **Statusline and menus:** Advanced statusline and popup menus for productivity.
-- **Recent files (Backtrack):** Access and open recently used files from dashboard or menu.
-
----
-
 ## Key Mappings
 
 | Mapping             | Mode           | Action/Description                                 |
