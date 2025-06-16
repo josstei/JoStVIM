@@ -264,7 +264,7 @@ highlight link JavaTodoComment Todo
 
     augroup NerdTreeHandler
         autocmd!
-        autocmd TabNew,VimEnter * NERDTree | wincmd p
+        autocmd TabNew * NERDTree | wincmd p
     augroup END
 
     nnoremap <leader>e :NERDTreeToggle<CR>
@@ -273,12 +273,15 @@ highlight link JavaTodoComment Todo
 " ***************** DASHBOARD SETUP l************************
 " **********************************************************
     let g:dashboard_menu_fzf        = { "keymap":"s", "label":"Search Project", "command":":Files<CR>" }
-    let g:dashboard_menu_backtrack  = { "keymap":"r", "label":"Recent Files", "command":":Backtrack<CR>" }
+    let g:dashboard_menu_backtrack  = { "keymap":"r", "label":"Recent Files",   "command":":Backtrack<CR>" }
+    let g:dashboard_menu_newfile    = { "keymap":"n", "label":"New File",       "command":":enew<CR>" }
+    let g:dashboard_menu_closejost  = { "keymap":"q", "label":"Quit",           "command":":qa!<CR>" }
 
-    let g:dashboard_options     = ['newfile','backtrack','fzf','quitall']
+    let g:dashboard_options     = ['newfile','backtrack','fzf','closejost']
     let g:dashboard_extras      = [strftime('%c'),'']
     let g:dashboard_name        = 'Jostvim'
     let g:dashboard_logo        = [
+        \ '',
         \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
         \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
         \ '     ██║██║   ██║███████╗   ██║   ██║   ██║██║██╔████╔██║',
@@ -289,6 +292,9 @@ highlight link JavaTodoComment Todo
         \ ]
 
 " **********************************************************
-" ***************** DASHBOARD SETUP l************************
+" ***************** BACKTRACK SETUP l***********************
 " **********************************************************
-    let g:backtrack_split = ''
+    let g:backtrack_split                   = 'botright vsplit'
+    let g:backtrack_max_count               = 10
+    let g:backtrack_alternate_split_types   = ['dashboard']
+    let g:backtrack_alternate_split         = ''
