@@ -3,6 +3,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
+Plug 'git@github.com:josstei/vim-easydash.git'
 Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
@@ -226,7 +227,8 @@ highlight link JavaTodoComment Todo
         \ { 'label' : 'Git',    'command':'menu:git' },
         \ { 'label' : 'Window', 'command':'menu:window' },
         \ { 'label' : 'File',   'command':'menu:file' },
-        \ { 'label' : 'Code',   'command':'menu:code' }
+        \ { 'label' : 'Code',   'command':'menu:code' },
+        \ { 'label' : 'Misc',   'command':':EasyEnvCreate' }
         \ ]
     let g:easyops_commands_code = [
         \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
@@ -272,15 +274,14 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ***************** DASHBOARD SETUP l************************
 " **********************************************************
-    let g:dashboard_menu_fzf        = { "keymap":"s", "label":"Search Project", "command":":Files<CR>" }
-    let g:dashboard_menu_backtrack  = { "keymap":"r", "label":"Recent Files",   "command":":Backtrack<CR>" }
-    let g:dashboard_menu_newfile    = { "keymap":"n", "label":"New File",       "command":":enew<CR>" }
-    let g:dashboard_menu_closejost  = { "keymap":"q", "label":"Quit",           "command":":qa!<CR>" }
-
-    let g:dashboard_options     = ['newfile','backtrack','fzf','closejost']
-    let g:dashboard_extras      = [strftime('%c'),'']
-    let g:dashboard_name        = 'Jostvim'
-    let g:dashboard_logo        = [
+    let g:easydash_menu_fzf         = { "keymap":"s", "label":"Search Project", "command":":Files<CR>" }
+    let g:easydash_menu_backtrack   = { "keymap":"r", "label":"Recent Files",   "command":":Backtrack<CR>" }
+    let g:easydash_menu_newfile     = { "keymap":"n", "label":"New File",       "command":":enew<CR>" }
+    let g:easydash_menu_closejost   = { "keymap":"q", "label":"Quit",           "command":":qa!<CR>" }
+    let g:easydash_options          = ['newfile','backtrack','fzf','closejost']
+    let g:easydash_extras           = [strftime('%c'),'']
+    let g:easydash_name             = 'Jostvim'
+    let g:easydash_logo             = [
         \ '',
         \ '     ██╗ ██████╗ ███████╗████████╗██╗   ██╗██╗███╗   ███╗',
         \ '     ██║██╔═══██╗██╔════╝╚══██╔══╝██║   ██║██║████╗ ████║',
