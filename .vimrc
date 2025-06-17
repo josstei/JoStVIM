@@ -3,7 +3,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
-Plug 'git@github.com:josstei/vim-easydash.git'
+Plug 'josstei/vim-easydash'
 Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
@@ -224,16 +224,21 @@ highlight link JavaTodoComment Todo
 " ********************** EASYOPS ***************************
 " **********************************************************
     let g:easyops_commands_main = [
-        \ { 'label' : 'Git',    'command':'menu:git' },
-        \ { 'label' : 'Window', 'command':'menu:window' },
-        \ { 'label' : 'File',   'command':'menu:file' },
-        \ { 'label' : 'Code',   'command':'menu:code' },
-        \ { 'label' : 'Misc',   'command':':EasyEnvCreate' }
+        \ { 'label' : 'Git',    'command' : 'menu:git'    },
+        \ { 'label' : 'Window', 'command' : 'menu:window' },
+        \ { 'label' : 'File',   'command' : 'menu:file'   },
+        \ { 'label' : 'Code',   'command' : 'menu:code'   },
+        \ { 'label' : 'Misc',   'command' : 'menu:misc'  }
         \ ]
     let g:easyops_commands_code = [
-        \ { 'label' : 'Maven',  'command':'menu:springboot|maven' },
-        \ { 'label' : 'Vim',    'command':'menu:vim' }
+        \ { 'label' : 'Maven',  'command' : 'menu:springboot|maven' },
+        \ { 'label' : 'Vim',    'command' : 'menu:vim' }
         \ ]
+
+    let g:easyops_commands_misc= [
+        \ { 'label' : 'Create EasyEnv',  'command':':EasyEnvCreate' },
+        \ ]
+    let g:easyops_menu_misc = { 'commands' : g:easyops_commands_misc }
 
     nnoremap <silent> <leader>m :EasyOps<CR>
 " **********************************************************
@@ -272,7 +277,7 @@ highlight link JavaTodoComment Todo
     nnoremap <leader>e :NERDTreeToggle<CR>
 
 " **********************************************************
-" ***************** DASHBOARD SETUP l************************
+" ***************** EASYDASH SETUP *************************
 " **********************************************************
     let g:easydash_menu_fzf         = { "keymap":"s", "label":"Search Project", "command":":Files<CR>" }
     let g:easydash_menu_backtrack   = { "keymap":"r", "label":"Recent Files",   "command":":Backtrack<CR>" }
@@ -297,5 +302,5 @@ highlight link JavaTodoComment Todo
 " **********************************************************
     let g:backtrack_split                   = 'botright vsplit'
     let g:backtrack_max_count               = 10
-    let g:backtrack_alternate_split_types   = ['dashboard']
+    let g:backtrack_alternate_split_types   = ['easydash']
     let g:backtrack_alternate_split         = ''
