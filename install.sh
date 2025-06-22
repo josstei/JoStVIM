@@ -19,7 +19,9 @@ mkdir -p "$PLUGGED_DIR"
 # 2. Install plugins for Vim/Neovim
 for editor in vim nvim; do
   if command -v $editor >/dev/null 2>&1; then
-    $editor -u "$VIMRC" +PlugInstall +qall
+    $editor \
+      --cmd "set runtimepath^=$REPO_DIR,$REPO_DIR/plugged" \
+      -u "$VIMRC" +PlugInstall +qall
   fi
 done
 
