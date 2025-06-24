@@ -4,20 +4,38 @@ Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-easydash'
-Plug 'josstei/vim-jostline'
+" Plug 'josstei/vim-jostline'
+Plug 'josstei/vim-easyline'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
 Plug 'josstei/vim-tidyterm'
 Plug 'josstei/vim-backtrack'
-" ***** THEMES *****
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'crusoexia/vim-monokai'
-Plug 'sainnhe/everforest'
-Plug 'NLKNguyen/papercolor-theme'
+" ***** THEMES (Vim-Compatible) *****
+    Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'morhetz/gruvbox'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'crusoexia/vim-monokai'
+    Plug 'sainnhe/everforest'
+    Plug 'sainnhe/sonokai'
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'joshdick/onedark.vim'
+    Plug 'tomasr/molokai'
+    Plug 'mhartington/oceanic-next'
+
+" ***** THEMES (Neovim-only) *****
+if has('nvim')
+    Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+    Plug 'folke/tokyonight.nvim'
+    Plug 'rebelot/kanagawa.nvim'
+    Plug 'navarasu/onedark.nvim'
+    Plug 'EdenEast/nightfox.nvim'
+    Plug 'rose-pine/neovim'
+    Plug 'tanvirtin/monokai.nvim'
+    Plug 'nyoom-engineering/oxocarbon.nvim'
+    Plug 'sainnhe/edge'
+    Plug 'marko-cerovac/material.nvim'
+endif
 call plug#end()
 
 
@@ -44,7 +62,11 @@ call plug#end()
 	set fillchars=eob:\                             " - Hide characters at the end of the buffer
     filetype plugin indent on
 
-    try | colorscheme dracula | catch /.*/ | endtry
+    try
+	if has('nvim') | colorscheme tokyonight | else | colorscheme dracula | endif
+    catch /.*/
+        echom 'Jostvim: ' . v:exception
+    endtry
 
     nnoremap <space> <nop>
     let mapleader = " "    " - Remap leader to space 
