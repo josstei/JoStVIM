@@ -4,7 +4,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'       
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-easydash'
-" Plug 'josstei/vim-jostline'
 Plug 'josstei/vim-easyline'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
@@ -63,7 +62,7 @@ call plug#end()
     filetype plugin indent on
 
     try
-	if has('nvim') | colorscheme tokyonight | else | colorscheme dracula | endif
+	if has('nvim') | colorscheme edge | else | colorscheme dracula | endif
     catch /.*/
         echom 'Jostvim: ' . v:exception
     endtry
@@ -226,23 +225,6 @@ syntax match JavaTodoComment /\/\/\s*TODO.*/ containedin=javaComment
 highlight link JavaTodoComment Todo
 
 " **********************************************************
-" ********************* JOSTLINE ***************************
-" **********************************************************
-	let g:jostline_left_section_1_active = { 'items': ['windowNumber']}
-	let g:jostline_left_section_2_active = { 'items': ['mode'] }
-	let g:jostline_left_section_3_active = { 'items': ['gitStats']}
-	let g:jostline_left_section_4_active = { 'items': ['fileName']}
-	let g:jostline_left_section_1_inactive = { 'items': ['windowNumber']}
-
-	let g:jostline_right_section_1_active = { 'items': ['fileType'] }
-	let g:jostline_right_section_2_active = { 'items': ['modified'] }
-	let g:jostline_right_section_3_active = { 'items': ['cursorPos'] }
-	let g:jostline_right_section_3_inactive= { 'items': ['fileName'] }
-
-	let g:jostline_separator = 'triangle'
-	let g:jostline_subseparator = 'dot'
-
-" **********************************************************
 " ********************** EASYOPS ***************************
 " **********************************************************
     let g:easyops_commands_main = [
@@ -320,9 +302,17 @@ highlight link JavaTodoComment Todo
         \ ]
 
 " **********************************************************
-" ***************** BACKTRACK SETUP l***********************
+" ***************** BACKTRACK SETUP ************************
 " **********************************************************
     let g:backtrack_split                   = 'botright vsplit'
     let g:backtrack_max_count               = 10
     let g:backtrack_alternate_split_types   = ['easydash']
     let g:backtrack_alternate_split         = ''
+
+" **********************************************************
+" ***************** EASYLINE SETUP *************************
+" **********************************************************
+    let g:easyline_left_active_items    = ['windownumber','filename','modified']
+    let g:easyline_left_inactive_items  = ['windownumber']
+    let g:easyline_right_active_items   = ['position','filetype','encoding']
+    let g:easyline_right_inactive_items = ['filename']
