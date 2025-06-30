@@ -57,8 +57,8 @@ call plug#end()
     set autoindent
     set smartindent
 	set noswapfile                                  " - Prevent swap file creation
-	syntax on                                       " - Enable syntax highlighting
 	set fillchars=eob:\                             " - Hide characters at the end of the buffer
+	syntax on                                       " - Enable syntax highlighting
     filetype plugin indent on
 
     try
@@ -168,61 +168,29 @@ endfunction
 " **********************************************************
 " ***************** COMMENT SETUP **************************
 " **********************************************************
-let g:comment_map = {
-      \ 'c':        '// ',
-      \ 'cpp':      '// ',
-      \ 'java':     '// ',
-      \ 'scala':    '// ',
-      \ 'sh':       '# ',
-      \ 'ruby':     '# ',
-      \ 'python':   '# ',
-      \ 'conf':     '# ',
-      \ 'fstab':    '# ',
-      \ 'tex':      '% ',
-      \ 'mail':     '> ',
-      \ 'vim':      '" '
-      \ }
+        let g:comment_map = {
+              \ 'c':        '// ',
+          \ 'cpp':      '// ',
+          \ 'java':     '// ',
+          \ 'scala':    '// ',
+          \ 'sh':       '# ',
+          \ 'ruby':     '# ',
+          \ 'python':   '# ',
+          \ 'conf':     '# ',
+          \ 'fstab':    '# ',
+          \ 'tex':      '% ',
+          \ 'mail':     '> ',
+          \ 'vim':      '" '
+          \ }
 
-function! GetComment()
-  return get(g:comment_map, &filetype, '# ')
-endfunction
+    function! GetComment()
+      return get(g:comment_map, &filetype, '# ')
+    endfunction
 
-noremap <leader>cc :<C-B>silent s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
-noremap <leader>cu :<C-B>silent s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
-vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-
-" ********** JAVA SETUP START **********
-autocmd FileType java setlocal omnifunc=s:javacomplete
-
-function! s:javacomplete(findstart, base)
-  if a:findstart
-    let line  = getline('.')
-    let start = col('.') - 1
-    while start > 0 && line[start - 1] =~ '\w'
-      let start -= 1
-    endwhile
-    return start
-  else
-    return ['toString()', 'equals()', 'hashCode()', 'notify()', 'wait()']
-  endif
-endfunction
-
-" autocmd BufWritePost *.java call s:RunJavac()
-
-function! s:RunJavac()
-  let l:filename = expand('%:p')
-  let l:errors   = systemlist('javac ' . shellescape(l:filename))
-  call setqflist(map(copy(l:errors), '{ "text": v:val }'))
-  if len(l:errors)
-    botright copen
-  else
-    cclose
-  endif
-endfunction
-
-syntax match JavaTodoComment /\/\/\s*TODO.*/ containedin=javaComment
-highlight link JavaTodoComment Todo
+    noremap <leader>cc :<C-B>silent s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
+    noremap <leader>cu :<C-B>silent s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
+    vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
+    vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
 
 " **********************************************************
 " ********************** EASYOPS ***************************
@@ -312,7 +280,10 @@ highlight link JavaTodoComment Todo
 " **********************************************************
 " ***************** EASYLINE SETUP *************************
 " **********************************************************
-    let g:easyline_left_active_items    = ['windownumber','filename','modified']
+    let g:easyline_left_active_items    = ['windownumber','git','filename','modified']
     let g:easyline_left_inactive_items  = ['windownumber']
+    let g:easyline_left_separator       = ''
     let g:easyline_right_active_items   = ['position','filetype','encoding']
     let g:easyline_right_inactive_items = ['filename']
+    let g:easyline_right_separator      = ''
+
