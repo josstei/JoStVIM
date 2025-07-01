@@ -280,10 +280,16 @@ endfunction
 " **********************************************************
 " ***************** EASYLINE SETUP *************************
 " **********************************************************
+    let g:easyline_left_active_items_nerdtree       = ['windownumber']
+    let g:easyline_left_inactive_items_nerdtree     = ['windownumber']
+    let g:easyline_right_active_items_nerdtree      = []
+    let g:easyline_right_inactive_items_nerdtree    = []
+
     let g:easyline_left_active_items    = ['windownumber','git','filename','modified']
     let g:easyline_left_inactive_items  = ['windownumber']
-    let g:easyline_left_separator       = ''
     let g:easyline_right_active_items   = ['position','filetype','encoding']
     let g:easyline_right_inactive_items = ['filename']
+
+    let g:easyline_left_separator       = ''
     let g:easyline_right_separator      = ''
 
