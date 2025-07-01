@@ -1,15 +1,16 @@
 call plug#begin(expand('<sfile>:p:h') . '/plugged')
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'psliwka/vim-smoothie'       
-Plug 'preservim/nerdtree'
-Plug 'josstei/vim-easydash'
-Plug 'josstei/vim-easyline'
-Plug 'josstei/vim-easycomment'
-Plug 'josstei/vim-easyops'
-Plug 'josstei/vim-easyenv'
-Plug 'josstei/vim-tidyterm'
-Plug 'josstei/vim-backtrack'
+" ***** PLUGINS *****
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'psliwka/vim-smoothie'       
+    Plug 'preservim/nerdtree'
+    Plug 'josstei/vim-easydash'
+    Plug 'josstei/vim-easyline'
+    Plug 'josstei/vim-easycomment'
+    Plug 'josstei/vim-easyops'
+    Plug 'josstei/vim-easyenv'
+    Plug 'josstei/vim-tidyterm'
+    Plug 'josstei/vim-backtrack'
 " ***** THEMES (Vim-Compatible) *****
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
@@ -22,7 +23,6 @@ Plug 'josstei/vim-backtrack'
     Plug 'joshdick/onedark.vim'
     Plug 'tomasr/molokai'
     Plug 'mhartington/oceanic-next'
-
 " ***** THEMES (Neovim-only) *****
 if has('nvim')
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
@@ -110,11 +110,6 @@ function! DoNavigate(window)
 endfunction
 
 " **********************************************************
-" ***************** TERMINAL SETUP *************************
-" **********************************************************
-    tnoremap <c-n> <c-\><c-n>
-
-" **********************************************************
 " ***************** FILE SETUP *****************************
 " **********************************************************
     nnoremap <leader>fq :q<CR>
@@ -187,6 +182,7 @@ endfunction
     let g:easyops_menu_misc = { 'commands' : g:easyops_commands_misc }
 
     nnoremap <silent> <leader>m :EasyOps<CR>
+
 " **********************************************************
 " ********************* TIDYTERM ***************************
 " **********************************************************
