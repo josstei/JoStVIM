@@ -5,6 +5,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
 Plug 'josstei/vim-easydash'
 Plug 'josstei/vim-easyline'
+Plug 'josstei/vim-easycomment'
 Plug 'josstei/vim-easyops'
 Plug 'josstei/vim-easyenv'
 Plug 'josstei/vim-tidyterm'
@@ -166,33 +167,6 @@ endfunction
 	autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
 " **********************************************************
-" ***************** COMMENT SETUP **************************
-" **********************************************************
-        let g:comment_map = {
-              \ 'c':        '// ',
-          \ 'cpp':      '// ',
-          \ 'java':     '// ',
-          \ 'scala':    '// ',
-          \ 'sh':       '# ',
-          \ 'ruby':     '# ',
-          \ 'python':   '# ',
-          \ 'conf':     '# ',
-          \ 'fstab':    '# ',
-          \ 'tex':      '% ',
-          \ 'mail':     '> ',
-          \ 'vim':      '" '
-          \ }
-
-    function! GetComment()
-      return get(g:comment_map, &filetype, '# ')
-    endfunction
-
-    noremap <leader>cc :<C-B>silent s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
-    noremap <leader>cu :<C-B>silent s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-    vnoremap <leader>cc :<C-U>silent '<,'>s/^/<C-R>=escape(GetComment(), '/')<CR>/<CR> :nohlsearch<CR>
-    vnoremap <leader>cu :<C-U>silent '<,'>s/^\V<C-R>=escape(GetComment(), '/')<CR>//e<CR> :nohlsearch<CR>
-
-" **********************************************************
 " ********************** EASYOPS ***************************
 " **********************************************************
     let g:easyops_commands_main = [
@@ -293,3 +267,8 @@ endfunction
     let g:easyline_left_separator       = ''
     let g:easyline_right_separator      = ''
 
+" **********************************************************
+" ***************** EASYCOMMENT SETUP **********************
+" **********************************************************
+    noremap  <leader>cc :EasyComment <CR>
+    vnoremap <leader>cc :EasyComment <CR>
