@@ -63,7 +63,7 @@ call plug#end()
     filetype plugin indent on
 
     try
-	if has('nvim') | colorscheme edge | else | colorscheme dracula | endif
+	if has('nvim') | colorscheme tokyonight-moon | else | colorscheme dracula | endif
     catch /.*/
         echom 'Jostvim: ' . v:exception
     endtry
@@ -188,7 +188,7 @@ endfunction
 " **********************************************************
     nnoremap <silent> <C-_> :TidyTerm<CR>
     tnoremap <silent> <C-_> <C-\><C-n>:TidyTerm<CR>
-
+    tnoremap <c-n> <c-\><c-n>
 " **********************************************************
 " ************************ FZF *****************************
 " **********************************************************
