@@ -260,6 +260,11 @@ endfunction
     let g:easyline_right_active_items_tidyterm      = ['filetype']
     let g:easyline_right_inactive_items_tidyterm    = ['filetype']
 
+    let g:easyline_left_active_items_easydash       = ['windownumber','git']
+    let g:easyline_left_inactive_items_easydash     = ['windownumber']
+    let g:easyline_right_active_items_easydash      = []
+    let g:easyline_right_inactive_items_easydash    = []
+
     let g:easyline_left_active_items    = ['windownumber','git','filename','modified']
     let g:easyline_left_inactive_items  = ['windownumber']
     let g:easyline_right_active_items   = ['position','filetype','encoding']
