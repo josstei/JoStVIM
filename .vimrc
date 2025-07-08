@@ -65,7 +65,7 @@ call plug#end()
     filetype plugin indent on
 
     try
-        if has('nvim') | colorscheme voidpulse | else | colorscheme voidpulse | endif
+        colorscheme voidpulse
     catch /.*/
         echom 'Jostvim: ' . v:exception
     endtry
