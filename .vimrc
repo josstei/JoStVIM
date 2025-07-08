@@ -12,6 +12,7 @@ call plug#begin(expand('<sfile>:p:h') . '/plugged')
     Plug 'josstei/vim-tidyterm'
     Plug 'josstei/vim-backtrack'
 " ***** THEMES (Vim-Compatible) *****
+    Plug 'josstei/voidpulse.nvim'
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'morhetz/gruvbox'
     Plug 'arcticicestudio/nord-vim'
@@ -25,6 +26,7 @@ call plug#begin(expand('<sfile>:p:h') . '/plugged')
     Plug 'mhartington/oceanic-next'
 " ***** THEMES (Neovim-only) *****
 if has('nvim')
+    Plug 'josstei/voidpulse.nvim'
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
     Plug 'folke/tokyonight.nvim'
     Plug 'rebelot/kanagawa.nvim'
@@ -63,7 +65,7 @@ call plug#end()
     filetype plugin indent on
 
     try
-	if has('nvim') | colorscheme tokyonight-moon | else | colorscheme dracula | endif
+        if has('nvim') | colorscheme voidpulse | else | colorscheme voidpulse | endif
     catch /.*/
         echom 'Jostvim: ' . v:exception
     endtry
