@@ -231,15 +231,41 @@ endif
 
 ### Environment Management
 
-Configure project environments with vim-easyenv:
+Configure project environments with vim-easyenv by using a `.easyenv.json` file in your project root:
 
-```vim
-" Set project-specific environment
-let g:easyenv_config = {
-  \ 'development': {'NODE_ENV': 'development', 'DEBUG': 'true'},
-  \ 'production': {'NODE_ENV': 'production', 'DEBUG': 'false'}
-  \ }
-```
+#### Using vim-easyenv
+
+1. **Create environment file in your project:**
+   ```
+   :EasyEnvCreate
+   ```
+   This creates a `.easyenv.json` file with default structure in your project root.
+
+2. **Edit `.easyenv.json` to define your variables:**
+   ```json
+   {
+     "environment": {
+       "API_URL": "https://dev.local/api",
+       "DEBUG": "1",
+       "DATABASE_URL": "localhost:5432",
+       "NODE_ENV": "development"
+     }
+   }
+   ```
+
+3. **Load environment variables into your Vim session:**
+   ```
+   :EasyEnvLoad
+   ```
+   Your environment variables will be available as `$API_URL`, `$DEBUG`, etc.
+
+#### Features
+- **Automatic Project Root Detection**: Detects project root by scanning for manifest files (package.json, Cargo.toml, pom.xml, go.mod, Dockerfile, and many more)
+- **Automatic Variable Management**: Previously loaded variables are automatically unset before new ones are loaded
+- **Wide Ecosystem Support**: Supports JavaScript, Python, Rust, Java, .NET, Go, Docker, Kubernetes, and major frontend frameworks
+- **Simple JSON Configuration**: All environment variables defined under a single `environment` key
+
+The plugin automatically finds your project root and manages environment variables through the simple `.easyenv.json` configuration file, making it easy to keep project-specific environment variables isolated and under version control.
 
 ---
 
